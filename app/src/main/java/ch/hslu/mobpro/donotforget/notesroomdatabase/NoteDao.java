@@ -1,4 +1,4 @@
-package ch.hslu.mobpro.donotforget.notesRoomDatabase;
+package ch.hslu.mobpro.donotforget.notesroomdatabase;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

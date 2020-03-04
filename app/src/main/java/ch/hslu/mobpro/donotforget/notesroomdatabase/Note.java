@@ -1,15 +1,18 @@
-package ch.hslu.mobpro.donotforget.todosRoomDatabase;
+package ch.hslu.mobpro.donotforget.notesroomdatabase;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "todos")
-public class Todo {
+@Entity(tableName = "notes")
+public class Note {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
 
     @ColumnInfo(name="title")
     public String title;
+
+    @ColumnInfo(name = "content")
+    public String content;
 }

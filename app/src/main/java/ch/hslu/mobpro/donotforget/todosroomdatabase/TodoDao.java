@@ -1,4 +1,4 @@
-package ch.hslu.mobpro.donotforget.todosRoomDatabase;
+package ch.hslu.mobpro.donotforget.todosroomdatabase;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -7,8 +7,6 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import java.util.List;
-
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItem;
 
 @Dao
 public interface TodoDao {

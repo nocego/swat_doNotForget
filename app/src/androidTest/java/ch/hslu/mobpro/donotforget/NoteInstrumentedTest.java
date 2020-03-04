@@ -19,9 +19,9 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.Note;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NoteDao;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesDatabase;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 
 import static org.junit.Assert.*;
 
@@ -38,8 +38,7 @@ public class NoteInstrumentedTest {
     public ActivityTestRule<NoteNew> NoteNewActivityTestRule = new ActivityTestRule<NoteNew>(NoteNew.class){
         protected Intent getActivityIntent(){
             InstrumentationRegistry.getTargetContext();
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            return intent;
+            return new Intent(Intent.ACTION_MAIN);
         }
     };
 
@@ -75,7 +74,7 @@ public class NoteInstrumentedTest {
     public void testShowTitleCorrectFromDb(){
         //arrange
         final NoteDetail activityNoteDetail = NoteDetailActivityTestRule.getActivity();
-        TextView title = (TextView) activityNoteDetail.findViewById(R.id.titleNote);
+        TextView title = activityNoteDetail.findViewById(R.id.titleNote);
 
         //assert
         assertEquals(getLastNoteFromDb(activityNoteDetail).title, title.getText().toString());
@@ -124,8 +123,7 @@ public class NoteInstrumentedTest {
                 NotesDatabase.class,
                 "notes_database"
         ).allowMainThreadQueries().build();
-        NoteDao noteDao = notesDb.noteDao();
-        return noteDao;
+        return notesDb.noteDao();
     }
 
     private Note getLastNoteFromDb(AppCompatActivity activity){
@@ -145,7 +143,7 @@ public class NoteInstrumentedTest {
     private void createNote(final NoteNew activity){
         NoteDao noteDao = getNoteDao(activity);
         int oldListSize = noteDao.getAll().size();
-        final EditText title = (EditText) activity.findViewById(R.id.editText);
+        final EditText title = activity.findViewById(R.id.editText);
 
         activity.runOnUiThread(new Runnable() {
             @Override

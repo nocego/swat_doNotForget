@@ -1,3 +1,9 @@
 
-msquid:S1450"VRemove the "noteDao" field and declare it as a local variable in the relevant methods.(™Ç¥ð
-zsquid:S1450"^Remove the "currentTabIndex" field and declare it as a local variable in the relevant methods.(œ¼úïÿÿÿÿÿ
+E
+java:S1172<"(Remove this unused method parameter "v".(ŠÒ—¶8¿Ç÷§Š.
+J
+java:S1172A"(Remove this unused method parameter "v".(ó°ùÕüÿÿÿÿ8¿Ç÷§Š.
+D
+java:S1172F"(Remove this unused method parameter "v".(“ê‡R8¿Ç÷§Š.
+J
+java:S1172K"(Remove this unused method parameter "v".(è£ùüÿÿÿÿ8¿Ç÷§Š.

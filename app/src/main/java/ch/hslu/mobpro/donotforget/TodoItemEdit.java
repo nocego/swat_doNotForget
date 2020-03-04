@@ -1,13 +1,11 @@
 package ch.hslu.mobpro.donotforget;
 
-import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
@@ -15,7 +13,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,14 +22,11 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItem;
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItemDao;
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItemsDatabase;
+import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItem;
+import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemDao;
+import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemsDatabase;
 
 public class TodoItemEdit extends AppCompatActivity implements DatePickerFragment.DateListener, TimePickerFragment.TimeListener{
 
@@ -48,8 +42,8 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
     private CheckBox inCalendar;
     private String[] splittedDateTime;
     private final Calendar calendar = Calendar.getInstance();
-    private long calendarId = 0;
     private CheckBox calendarCheckbox;
+    private TodoItemHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +61,9 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         getCurrentTodoItem(intent);
         fillActivity();
 
-        askPermissionReadCalendar();
-        askPermissionWriteCalendar();
+        helper = new TodoItemHelper();
+        canWriteToCalendar = helper.askPermissionReadCalendar(this);
+        canWriteToCalendar = helper.askPermissionWriteCalendar(this);
     }
 
     @Override
@@ -105,12 +100,12 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
     }
 
     private void fillActivity(){
-        title = (EditText)findViewById(R.id.editText9);
-        date = (Button)findViewById(R.id.dateButton2);
-        time = (Button)findViewById(R.id.timeButton2);
-        place = (EditText)findViewById(R.id.editText12);
-        staff = (EditText)findViewById(R.id.editText13);
-        inCalendar = (CheckBox)findViewById(R.id.checkBox2);
+        title = findViewById(R.id.editText9);
+        date = findViewById(R.id.dateButton2);
+        time = findViewById(R.id.timeButton2);
+        place = findViewById(R.id.editText12);
+        staff = findViewById(R.id.editText13);
+        inCalendar = findViewById(R.id.checkBox2);
 
         splittedDateTime = currentTodoItem.date.split(" ");
 
@@ -129,7 +124,7 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         currentTodoItem.staff=staff.getText().toString();
 
         if(canWriteToCalendar) {
-            if (currentTodoItem.inCalendar == true) {
+            if (currentTodoItem.inCalendar) {
                 if (inCalendar.isChecked()) {
                     updateCalendarEntry(currentTodoItem.calendarEventId, currentTodoItem.title, currentTodoItem.place, currentTodoItem.date, currentTodoItem.staff);
                 } else {
@@ -137,13 +132,13 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
                 }
             } else {
                 if (inCalendar.isChecked()) {
-                    currentTodoItem.calendarEventId = writeToCal(currentTodoItem.date, currentTodoItem.title, currentTodoItem.place, currentTodoItem.staff);
+                    currentTodoItem.calendarEventId = helper.writeToCal(this, currentTodoItem.date, currentTodoItem.title, currentTodoItem.place, currentTodoItem.staff);
                 }
             }
         }
         currentTodoItem.inCalendar=inCalendar.isChecked();
 
-        if(canWriteToCalendar == false){
+        if(!canWriteToCalendar){
             currentTodoItem.inCalendar=false;
         }
 
@@ -177,7 +172,8 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         final String day = String.format("%02d", this.calendar.get(Calendar.DAY_OF_MONTH));
 
         Button button = findViewById(R.id.dateButton2);
-        button.setText(day + "." + month + "." + year);
+        String dateCorrect = day + "." + month + "." + year;
+        button.setText(dateCorrect);
     }
 
     @Override
@@ -204,7 +200,8 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         final String minute = String.format("%02d", this.calendar.get(Calendar.MINUTE));
 
         Button button = findViewById(R.id.timeButton2);
-        button.setText(hour + ":" + minute);
+        String timeCorrect = hour + ":" + minute;
+        button.setText(timeCorrect);
     }
 
     @Override
@@ -233,42 +230,14 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
                     calendarCheckbox.setEnabled(false);
                 }
                 break;
-        }
-    }
-
-    private void askPermissionWriteCalendar(){
-        int PERMISSION_REQUEST_CODE = 1;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if(checkSelfPermission(Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED){
-                String[] permissions = {Manifest.permission.WRITE_CALENDAR};
-
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-            }else{
-                canWriteToCalendar = true;
-            }
-        }
-    }
-
-    private void askPermissionReadCalendar(){
-        int PERMISSION_REQUEST_CODE = 2;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if(checkSelfPermission(Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED){
-                String[] permissions = {Manifest.permission.READ_CALENDAR};
-
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-            }else{
-                canWriteToCalendar = true;
-            }
+            default:
+                //can never be here, only 1 and 2 are possible codes
         }
     }
 
     private long updateCalendarEntry(long eventId, String title, String location, String dateInString, String attendee){
-        long startDate = getStartDate(dateInString);
-        long endDate = getEndDate(startDate, 1);
+        long startDate = helper.getStartDate(dateInString);
+        long endDate = helper.getEndDate(startDate, 1);
 
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Events.TITLE, title);
@@ -276,96 +245,20 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         values.put(CalendarContract.Events.DTSTART, startDate);
         values.put(CalendarContract.Events.DTEND, endDate);
         Uri updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
-        int rows = this.getApplicationContext().getContentResolver().update(updateUri, values, null, null);
+        this.getApplicationContext().getContentResolver().update(updateUri, values, null, null);
 
         eventId = Long.parseLong(updateUri.getLastPathSegment());
 
         if(attendee != null){
-            addAttendee(eventId, attendee);
+            helper.addAttendee(this, eventId, attendee);
         }
 
         return eventId;
-    }
-
-    private long getStartDate(String dateInString){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-
-        Date startDate = null;
-        try{
-            startDate = formatter.parse(dateInString);
-        }catch (Exception ex){
-            Log.e("Exception", ex.getMessage());
-        }
-        return startDate.getTime();
-    }
-
-    private long getEndDate(long startDate, int durationInHours){
-        long endDate = startDate + durationInHours*60*60*1000;
-        return endDate;
-    }
-
-    private void addAttendee(long eventId, String name){
-        ContentResolver cr = getContentResolver();
-        ContentValues values = new ContentValues();
-        values.put(CalendarContract.Attendees.ATTENDEE_NAME, name);
-        values.put(CalendarContract.Attendees.EVENT_ID, eventId);
-        Uri uri = cr.insert(CalendarContract.Attendees.CONTENT_URI, values);
     }
 
     private void deleteCalendarEntry(long eventId){
         ContentResolver cr = this.getApplicationContext().getContentResolver();
         Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
-        int rows = cr.delete(deleteUri, null, null);
-    }
-
-    private long writeToCal(String dateInString, String title, String location, String attendee) {
-        long startDate = getStartDate(dateInString);
-        long endDate = getEndDate(startDate, 1);
-
-        if(calendarId == 0){
-            setCalendarId();
-        }
-
-        ContentValues event = new ContentValues();
-        event.put(CalendarContract.Events.CALENDAR_ID, calendarId);
-        event.put(CalendarContract.Events.TITLE, title);
-        event.put(CalendarContract.Events.EVENT_LOCATION, location);
-        event.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
-        event.put(CalendarContract.Events.DTSTART, startDate);
-        event.put(CalendarContract.Events.DTEND, endDate);
-
-        event.put(CalendarContract.Events.ALL_DAY, 0); // 0 for false, 1 for true
-        event.put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED);
-        event.put(CalendarContract.Events.HAS_ALARM, 1); // 0 for false, 1 for true
-
-        String eventUriString = "content://com.android.calendar/events";
-        Uri eventUri = this.getApplicationContext()
-                .getContentResolver()
-                .insert(Uri.parse(eventUriString), event);
-        long eventId = Long.parseLong(eventUri.getLastPathSegment());
-
-        if(attendee != null){
-            addAttendee(eventId, attendee);
-        }
-        return eventId;
-    }
-
-    private void setCalendarId(){
-        final String[] EVENT_PROJECTION = new String[]{
-                CalendarContract.Calendars._ID,
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                CalendarContract.Calendars.CALENDAR_COLOR
-        };
-
-        final ContentResolver cr = getContentResolver();
-        final Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        Cursor cur = cr.query(uri, EVENT_PROJECTION, null, null, null);
-
-        while (cur.moveToNext()) {
-            String name = cur.getString(1);
-            if(name.indexOf('@')!=-1){
-                calendarId = cur.getLong(0);
-            }
-        }
+        cr.delete(deleteUri, null, null);
     }
 }

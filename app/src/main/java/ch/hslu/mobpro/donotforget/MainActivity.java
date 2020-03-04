@@ -18,9 +18,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.Note;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NoteDao;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesDatabase;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,18 +78,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(){
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        ViewPager viewPager = findViewById(R.id.viewPager);
 
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
 
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     private void selectTab(int chosenTabIndex){
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         TabLayout.Tab tab = tabLayout.getTabAt(chosenTabIndex);
         tab.select();
     }

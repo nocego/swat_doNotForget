@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.Todo;
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.TodoDao;
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.TodosDatabase;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.Todo;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.TodoDao;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.TodosDatabase;
 
 public class TodoEdit extends AppCompatActivity {
 
@@ -72,7 +72,7 @@ public class TodoEdit extends AppCompatActivity {
     }
 
     private void fillActivity(){
-        title = (EditText) findViewById(R.id.editText4);
+        title = findViewById(R.id.editText4);
         title.setText(currentTodo.title);
     }
 

@@ -1,6 +1,3 @@
 
-asquid:UselessImportCheck"8Remove this unused import 'android.widget.ArrayAdapter'.( €ŠÑÿÿÿÿÿ
-Vsquid:UselessImportCheck	"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ
-msquid:S1450"VRemove the "noteDao" field and declare it as a local variable in the relevant methods.(™Ç¥ð
-?squid:S1185%"(Remove this method to simply inherit it.(ßìê¯
-usquid:S22937"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÎÏ€ôúÿÿÿÿ
+C
+java:S1185"(Remove this method to simply inherit it.(ßìê¯8ñç›§Š.

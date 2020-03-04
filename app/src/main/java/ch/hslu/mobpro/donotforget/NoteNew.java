@@ -10,14 +10,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.Note;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NoteDao;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesDatabase;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 
 public class NoteNew extends AppCompatActivity {
 
     private NoteDao noteDao;
-    private NotesDatabase notesDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,8 @@ public class NoteNew extends AppCompatActivity {
     }
 
     public void saveNewNote(View v){
-        EditText title = (EditText) findViewById(R.id.editText);
-        EditText content = (EditText) findViewById(R.id.editText2);
+        EditText title = findViewById(R.id.editText);
+        EditText content = findViewById(R.id.editText2);
         Note note = new Note();
         note.title=title.getText().toString();
         note.content=content.getText().toString();
@@ -66,7 +65,7 @@ public class NoteNew extends AppCompatActivity {
     }
 
     private void createNotesDb(){
-        notesDb = Room.databaseBuilder(
+        NotesDatabase notesDb = Room.databaseBuilder(
                 getApplicationContext(),
                 NotesDatabase.class,
                 "notes_database"

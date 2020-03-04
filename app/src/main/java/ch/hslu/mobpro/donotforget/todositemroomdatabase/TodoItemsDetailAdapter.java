@@ -1,10 +1,7 @@
-package ch.hslu.mobpro.donotforget.todosItemRoomDatabase;
+package ch.hslu.mobpro.donotforget.todositemroomdatabase;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ch.hslu.mobpro.donotforget.R;
 import ch.hslu.mobpro.donotforget.TodoDetail;
@@ -20,7 +17,7 @@ import ch.hslu.mobpro.donotforget.TodoItemEdit;
 
 public class TodoItemsDetailAdapter extends ArrayAdapter<TodoItem> {
     TodoDetail parent;
-    public TodoItemsDetailAdapter(Context context, ArrayList<TodoItem> todoitems, TodoDetail parent){
+    public TodoItemsDetailAdapter(Context context, List<TodoItem> todoitems, TodoDetail parent){
         super(context, 0, todoitems);
         this.parent = parent;
     }
@@ -34,7 +31,7 @@ public class TodoItemsDetailAdapter extends ArrayAdapter<TodoItem> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_todo_item_detail, parent, false);
         }
         // Lookup view for data population
-        TextView title = (TextView) convertView.findViewById(R.id.titleTodoItem);
+        TextView title = convertView.findViewById(R.id.titleTodoItem);
         TextView date = convertView.findViewById(R.id.dateTodoItem);
         TextView place = convertView.findViewById(R.id.placeTodoItem);
         TextView staff = convertView.findViewById(R.id.staffTodoItem);

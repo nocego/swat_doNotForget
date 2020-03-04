@@ -22,13 +22,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItem;
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItemDao;
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItemsDatabase;
-import ch.hslu.mobpro.donotforget.todosItemRoomDatabase.TodoItemsDetailAdapter;
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.Todo;
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.TodoDao;
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.TodosDatabase;
+import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItem;
+import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemDao;
+import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemsDatabase;
+import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemsDetailAdapter;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.Todo;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.TodoDao;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.TodosDatabase;
 
 public class TodoDetail extends AppCompatActivity {
 
@@ -41,6 +41,7 @@ public class TodoDetail extends AppCompatActivity {
     private List<TodoItem> todoItemList;
     private int currentTodoId;
     private int currentTodoItemId;
+    private String todoIdString = "todoId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +67,10 @@ public class TodoDetail extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-        ArrayList<TodoItem> arrayOfTodoItems = new ArrayList<>();
         if(todoItemList != null) {
-            for (TodoItem item : todoItemList) {
-                arrayOfTodoItems.add(item);
-            }
+            ArrayList<TodoItem> arrayOfTodoItems = new ArrayList<>(todoItemList);
             TodoItemsDetailAdapter adapter = new TodoItemsDetailAdapter(getApplicationContext(), arrayOfTodoItems, this);
-            final ListView list = (ListView) findViewById(R.id.list4);
+            final ListView list = findViewById(R.id.list4);
             list.setAdapter(adapter);
             resizeList(list);
         }
@@ -89,7 +87,7 @@ public class TodoDetail extends AppCompatActivity {
 
     public void editTodoClicked(View v){
         Intent intent = new Intent(this, TodoEdit.class);
-        intent.putExtra("todoId", currentTodo.id);
+        intent.putExtra(todoIdString, currentTodo.id);
         startActivity(intent);
     }
 
@@ -123,7 +121,7 @@ public class TodoDetail extends AppCompatActivity {
     private void getCurrentTodoItem() { currentTodoItem = todoItemDao.findById(currentTodoItemId); }
 
     private void fillActivity() {
-        TextView title = (TextView) findViewById(R.id.titleTodo);
+        TextView title = findViewById(R.id.titleTodo);
         title.setText(currentTodo.title);
     }
 
@@ -177,7 +175,7 @@ public class TodoDetail extends AppCompatActivity {
 
     public void addTodoClicked(View view){
         Intent intent = new Intent(this, TodoItemNew.class);
-        intent.putExtra("todoId", currentTodo.id);
+        intent.putExtra(todoIdString, currentTodo.id);
         startActivity(intent);
     }
 
@@ -187,7 +185,7 @@ public class TodoDetail extends AppCompatActivity {
 
     private void saveTodoId(){
         Intent intent = getIntent();
-        this.currentTodoId = intent.getExtras().getInt("todoId");
+        this.currentTodoId = intent.getExtras().getInt(todoIdString);
     }
 
     private void saveTodoItemId(){
@@ -247,7 +245,7 @@ public class TodoDetail extends AppCompatActivity {
         if(eventId != -1) {
             ContentResolver cr = this.getApplicationContext().getContentResolver();
             Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
-            int rows = cr.delete(deleteUri, null, null);
+            cr.delete(deleteUri, null, null);
         }
     }
 }

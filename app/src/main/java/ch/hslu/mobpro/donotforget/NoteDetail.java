@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.Note;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NoteDao;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesDatabase;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 
 public class NoteDetail extends AppCompatActivity {
 
@@ -71,8 +71,8 @@ public class NoteDetail extends AppCompatActivity {
     }
 
     private void fillActivity() {
-        TextView title = (TextView) findViewById(R.id.titleNote);
-        TextView content = (TextView) findViewById(R.id.contentNote);
+        TextView title = findViewById(R.id.titleNote);
+        TextView content = findViewById(R.id.contentNote);
         title.setText(currentNote.title);
         content.setText(currentNote.content);
     }

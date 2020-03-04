@@ -1,2 +1,5 @@
 
-rsquid:S1450"VRemove the "notesDb" field and declare it as a local variable in the relevant methods.(ã­’ýøÿÿÿÿ
+H
+java:S1172"(Remove this unused method parameter "v".(©Œñàûÿÿÿÿ8éç™§Š.
+C
+java:S1172"(Remove this unused method parameter "v".( íš‚8éç™§Š.

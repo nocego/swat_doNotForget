@@ -1,21 +1,9 @@
 
-Ksquid:S1066x"/Merge this if statement with the enclosing one.(€¸’¢ûÿÿÿÿ
-hsquid:S1301È"KReplace this "switch" statement by "if" statements to increase readability.(×ö³–úÿÿÿÿ
-wsquid:S1488°"_Immediately return this expression instead of assigning it to the temporary variable "endDate".(û ë½
-dsquid:S2259¬"GA "NullPointerException" could be thrown; "startDate" is nullable here.(Î—÷Çûÿÿÿÿ
-jsquid:S00117ã"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñùÚÂ
-osquid:S00117ò"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šİÊ›şÿÿÿÿ
-osquid:S00117µ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(À’„çÿÿÿÿÿ
-Vsquid:UselessImportCheck "-Remove this unused import 'org.w3c.dom.Text'.(¶Äè‹şÿÿÿÿ
-€squid:UselessImportCheck*"WRemove this unused import 'ch.hslu.mobpro.donotforget.todosRoomDatabase.TodosDatabase'.(…®˜ùÿÿÿÿ
-esquid:UselessImportCheck"<Remove this unused import 'android.content.DialogInterface'.(Š­›¨şÿÿÿÿ
-isquid:UselessImportCheck"ERemove this unused import 'android.support.v4.content.ContextCompat'.(¹†Ç
-ksquid:UselessImportCheck"BRemove this unused import 'android.support.v4.app.ActivityCompat'.(Äüşÿÿÿÿ
-]squid:UselessImportCheck"4Remove this unused import 'android.app.AlertDialog'.(ª½øşüÿÿÿÿ
-]squid:UselessImportCheck"4Remove this unused import 'android.widget.TextView'.(„Ë‚ˆÿÿÿÿÿ
-qsquid:S1450/"ZRemove the "todoItemsDb" field and declare it as a local variable in the relevant methods.(Ù¦Ç‹
-Esquid:S1125r")Remove the literal "false" boolean value.(š©±†ùÿÿÿÿ
-V"squid:SwitchLastCaseIsDefaultCheckÈ""Add a default case to this switch.(×ö³–úÿÿÿÿ
-Tsquid:S1854Í"7Remove this useless assignment to local variable "uri".(˜ºúœúÿÿÿÿ
-Esquid:S1481Í"(Remove this unused "uri" local variable.(˜ºúœúÿÿÿÿ
-hsquid:CommentedOutCodeLine¾"<This block of commented-out lines of code should be removed.(êÒàğıÿÿÿÿ
+E
+java:S1172F"(Remove this unused method parameter "v".(íŞÌÂ8ËÚô§Š.
+D
+java:S1172<"(Remove this unused method parameter "v".(“ê‡R8ËÚô§Š.
+K
+java:S1172"(Remove this unused method parameter "v".(æ¦„ãúÿÿÿÿ8Æ®®µŠ.
+K
+java:S1172£"(Remove this unused method parameter "v".(ÀíÏ²ûÿÿÿÿ8Æ®®µŠ.

@@ -1,4 +1,4 @@
-package ch.hslu.mobpro.donotforget.todosItemRoomDatabase;
+package ch.hslu.mobpro.donotforget.todositemroomdatabase;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

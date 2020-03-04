@@ -6,27 +6,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.Note;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NoteDao;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesAdapter;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesDatabase;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesAdapter;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 
 
 public class NotesFragment extends Fragment {
 
     private NotesDatabase notesDb;
-    private NoteDao noteDao;
     private List<Note> noteList;
 
     public NotesFragment() {
@@ -52,12 +49,9 @@ public class NotesFragment extends Fragment {
         getDb();
         fillNoteList();
 
-        ArrayList<Note> arrayOfNotes = new ArrayList<Note>();
-        for(Note item : noteList){
-            arrayOfNotes.add(item);
-        }
+        ArrayList<Note> arrayOfNotes = new ArrayList<>(noteList);
         NotesAdapter adapter = new NotesAdapter(this.getContext(), arrayOfNotes);
-        final ListView list = (ListView) this.getView().findViewById(R.id.list);
+        final ListView list = this.getView().findViewById(R.id.list);
         list.setAdapter(adapter);
 
         addOnItemClickListener(list);
@@ -72,7 +66,7 @@ public class NotesFragment extends Fragment {
     }
 
     private void fillNoteList(){
-        noteDao = notesDb.noteDao();
+        NoteDao noteDao = notesDb.noteDao();
         noteList = noteDao.getAll();
     }
 

@@ -10,14 +10,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.TodosDatabase;
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.Todo;
-import ch.hslu.mobpro.donotforget.todosRoomDatabase.TodoDao;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.TodosDatabase;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.Todo;
+import ch.hslu.mobpro.donotforget.todosroomdatabase.TodoDao;
 
 public class ToDoNew extends AppCompatActivity {
 
     private TodoDao todoDao;
-    private TodosDatabase todosDb;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -64,7 +63,7 @@ public class ToDoNew extends AppCompatActivity {
     }
 
     private void createTodosDb(){
-        todosDb = Room.databaseBuilder(
+        TodosDatabase todosDb = Room.databaseBuilder(
                 getApplicationContext(),
                 TodosDatabase.class,
                 "todos_database"

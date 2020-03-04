@@ -1,8 +1,3 @@
 
-bsquid:UselessImportCheck"?Remove this unused import 'android.support.annotation.NonNull'.(¼Åß
-isquid:UselessImportCheck"@Remove this unused import 'android.support.annotation.Nullable'.(Ö‹øïüÿÿÿÿ
-rsquid:S1450"VRemove the "todoDao" field and declare it as a local variable in the relevant methods.(í‹‹çÿÿÿÿÿ
-vsquid:S1450""ZRemove the "todoItemDao" field and declare it as a local variable in the relevant methods.(€çŽ›ýÿÿÿÿ
-rsquid:S1450#"[Remove the "todoItemList" field and declare it as a local variable in the relevant methods.(ý¢¬Å
-?squid:S1185*"(Remove this method to simply inherit it.(ßìê¯
-Gsquid:S1068#"0Remove this unused "todoItemList" private field.(ý¢¬Å
+|
+java:S1128"_Remove this unused import 'ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemsDatabase'.(ÀìáÔ8÷·ýµŠ.

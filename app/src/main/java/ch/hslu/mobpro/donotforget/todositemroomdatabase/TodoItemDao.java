@@ -1,4 +1,4 @@
-package ch.hslu.mobpro.donotforget.todosItemRoomDatabase;
+package ch.hslu.mobpro.donotforget.todositemroomdatabase;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -6,7 +6,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao

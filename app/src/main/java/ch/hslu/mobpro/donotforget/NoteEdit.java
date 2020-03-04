@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.Note;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NoteDao;
-import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesDatabase;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
+import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 
 public class NoteEdit extends AppCompatActivity {
 
@@ -73,8 +72,8 @@ public class NoteEdit extends AppCompatActivity {
     }
 
     private void fillActivity(){
-        title = (EditText) findViewById(R.id.editText);
-        content = (EditText) findViewById(R.id.editText2);
+        title = findViewById(R.id.editText);
+        content = findViewById(R.id.editText2);
         title.setText(currentNote.title);
         content.setText(currentNote.content);
     }

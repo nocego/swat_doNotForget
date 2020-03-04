@@ -1,4 +1,4 @@
-package ch.hslu.mobpro.donotforget.todosRoomDatabase;
+package ch.hslu.mobpro.donotforget.todosroomdatabase;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
