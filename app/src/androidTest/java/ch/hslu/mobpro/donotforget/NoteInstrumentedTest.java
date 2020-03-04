@@ -34,6 +34,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class NoteInstrumentedTest {
 
+
     @Rule
     public ActivityTestRule<NoteNew> NoteNewActivityTestRule = new ActivityTestRule<NoteNew>(NoteNew.class){
         protected Intent getActivityIntent(){
@@ -53,16 +54,57 @@ public class NoteInstrumentedTest {
     };
 
     @Test
-    public void testWriteNoteToDb(){
+    public void testWriteNoteTitleToDb(){
         //arrange
         final NoteNew activityNoteNew = NoteNewActivityTestRule.getActivity();
+        final String noteTitle = "TestTitle";
 
         //act
-        createNote(activityNoteNew);
+        createNoteOnlyTitle(noteTitle, activityNoteNew);
         Note lastSavedNote = getLastNoteFromDb(activityNoteNew);
 
         //assert
-        assertEquals("TestNote",lastSavedNote.title);
+        assertEquals(noteTitle,lastSavedNote.title);
+
+        //revert
+        deleteNote(activityNoteNew, lastSavedNote);
+        //also delete the one made from NoteDetail
+        deleteNote(activityNoteNew, getLastNoteFromDb(activityNoteNew));
+    }
+
+    @Test
+    public void testWriteNoteContextAndTitleToDb(){
+        //arrange
+        final NoteNew activityNoteNew = NoteNewActivityTestRule.getActivity();
+        final String noteTitle = "TestTitle";
+        final String noteContent = "TestText";
+
+        //act
+        createNoteContentAndTitle(noteTitle, noteContent, activityNoteNew);
+        Note lastSavedNote = getLastNoteFromDb(activityNoteNew);
+
+        //assert
+        assertEquals(noteTitle, lastSavedNote.title);
+        assertEquals(noteContent, lastSavedNote.content);
+
+        //revert
+        deleteNote(activityNoteNew, lastSavedNote);
+        //also delete the one made from NoteDetail
+        deleteNote(activityNoteNew, getLastNoteFromDb(activityNoteNew));
+    }
+
+    @Test
+    public void testWriteNoteOnlyContent(){
+        //arrange
+        final NoteNew activityNoteNew = NoteNewActivityTestRule.getActivity();
+        final String noteContent = "TestText";
+
+        //act
+        createNoteOnlyContent(noteContent, activityNoteNew);
+        Note lastSavedNote = getLastNoteFromDb(activityNoteNew);
+
+        //assert
+        assertEquals(noteContent, lastSavedNote.content);
 
         //revert
         deleteNote(activityNoteNew, lastSavedNote);
@@ -107,14 +149,51 @@ public class NoteInstrumentedTest {
         assertNotEquals("TestNote", getLastNoteFromDb(activitNoteDetail).title);
     }
 
-    private Note getDemoDatabaseEntry(AppCompatActivity activity){
-        NoteDao noteDao = getNoteDao(activity);
+    private void createNoteOnlyTitle(final String noteTitle, final NoteNew activity){
+        final EditText title = activity.findViewById(R.id.editText);
+        final View v = activity.findViewById(R.id.content);
 
-        Note note = new Note();
-        note.title = "TestNote";
-        noteDao.insertAll(note);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                title.setText(noteTitle);
+                activity.saveNewNote(v);
+            }
+        });
 
-        return getLastNoteFromDb(activity);
+        waitForNotesSaved(activity);
+    }
+
+    private void createNoteOnlyContent(final String noteContent, final NoteNew activity){
+        final EditText content = activity.findViewById(R.id.editText2);
+        final View v = activity.findViewById(R.id.content);
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                content.setText(noteContent);
+                activity.saveNewNote(v);
+            }
+        });
+
+        waitForNotesSaved(activity);
+    }
+
+    private void createNoteContentAndTitle(final String noteTitle, final String noteContent, final NoteNew activity){
+        final EditText title = activity.findViewById(R.id.editText);
+        final EditText content = activity.findViewById(R.id.editText2);
+        final View v = activity.findViewById(R.id.content);
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                title.setText(noteTitle);
+                content.setText(noteContent);
+                activity.saveNewNote(v);
+            }
+        });
+
+        waitForNotesSaved(activity);
     }
 
     private NoteDao getNoteDao(AppCompatActivity activity){
@@ -140,26 +219,14 @@ public class NoteInstrumentedTest {
         }
     }
 
-    private void createNote(final NoteNew activity){
+    private void deleteNote(AppCompatActivity activity, Note note){
+        NoteDao noteDao = getNoteDao(activity);
+        noteDao.deleteNotes(note);
+    }
+
+    private void waitForNotesSaved(NoteNew activity){
         NoteDao noteDao = getNoteDao(activity);
         int oldListSize = noteDao.getAll().size();
-        final EditText title = activity.findViewById(R.id.editText);
-
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                title.setText("TestNote");
-            }
-        });
-
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                View v = activity.findViewById(R.id.content);
-                activity.saveNewNote(v);
-            }
-        });
-
 
         //wait for note to be saved in db
         List<Note> allNotes = null;
@@ -168,8 +235,13 @@ public class NoteInstrumentedTest {
         }while(allNotes.size() == oldListSize);
     }
 
-    private void deleteNote(AppCompatActivity activity, Note note){
+    private Note getDemoDatabaseEntry(AppCompatActivity activity){
         NoteDao noteDao = getNoteDao(activity);
-        noteDao.deleteNotes(note);
+
+        Note note = new Note();
+        note.title = "TestNote";
+        noteDao.insertAll(note);
+
+        return getLastNoteFromDb(activity);
     }
 }
