@@ -25,10 +25,8 @@ import ch.hslu.mobpro.donotforget.notesRoomDatabase.NotesDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private NotesDatabase notesDb;
-    private NoteDao noteDao;
     private List<Note> noteList;
     EditText editText;
-    private int currentTabIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
+        int currentTabIndex;
         Intent intent = getIntent();
         if(intent.getExtras() != null) {
             currentTabIndex = intent.getExtras().getInt("currentTabIndex");
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillNoteList(){
-        noteDao = notesDb.noteDao();
+        NoteDao noteDao = notesDb.noteDao();
         noteList = noteDao.getAll();
     }
 

@@ -1,0 +1,16 @@
+
+hsquid:S1301Õ"KReplace this "switch" statement by "if" statements to increase readability.(×ö³–úÿÿÿÿ
+wsquid:S1488¯"_Immediately return this expression instead of assigning it to the temporary variable "endDate".(û ë½
+dsquid:S2259«"GA "NullPointerException" could be thrown; "startDate" is nullable here.(Î—÷Çûÿÿÿÿ
+jsquid:S00117ð"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñùÚÂ
+osquid:S00117ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(šÝÊ›þÿÿÿÿ
+osquid:S00117â"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(À’„çÿÿÿÿÿ
+Esquid:S1125„"(Remove the literal "true" boolean value.(Åµ¦¬ûÿÿÿÿ
+Fsquid:S1125’")Remove the literal "false" boolean value.(š©±†ùÿÿÿÿ
+V"squid:SwitchLastCaseIsDefaultCheckÕ""Add a default case to this switch.(×ö³–úÿÿÿÿ
+Osquid:S1854—"8Remove this useless assignment to local variable "rows".(òÐç7
+Tsquid:S1854¸"7Remove this useless assignment to local variable "uri".(˜ºúœúÿÿÿÿ
+Psquid:S1854¾"8Remove this useless assignment to local variable "rows".(ûÕ¸”
+@squid:S1481—")Remove this unused "rows" local variable.(òÐç7
+Esquid:S1481¸"(Remove this unused "uri" local variable.(˜ºúœúÿÿÿÿ
+Asquid:S1481¾")Remove this unused "rows" local variable.(ûÕ¸”
