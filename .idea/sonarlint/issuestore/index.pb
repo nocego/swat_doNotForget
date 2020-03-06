@@ -158,3 +158,5 @@ Papp/src/main/java/ch/hslu/mobpro/donotforget/todosroomdatabase/TodosAdapter.jav
 Qapp/src/main/java/ch/hslu/mobpro/donotforget/todosroomdatabase/TodosDatabase.java,8\0\8070f292d96db2c0b960be8eb4f0eae87074a799
 p
 @app/src/main/java/ch/hslu/mobpro/donotforget/TodoItemHelper.java,6\8\68a4dadda57b66f50e7b5311c9b87ea1123957cf
+r
+Bapp/src/androidTest/java/ch/hslu/mobpro/donotforget/UnitTests.java,2\4\249d5b4fb44760d137d0847613721cf3ed638755
