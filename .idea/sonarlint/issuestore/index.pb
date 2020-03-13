@@ -105,8 +105,6 @@ i
 9app/src/main/res/xml/donotforget_widget_provider_info.xml,7\9\79e84346d90eb035eafc18ea1b46fe6a6d063cba
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
-q
-Aapp/src/test/java/ch/hslu/mobpro/donotforget/ExampleUnitTest.java,3\b\3bd173debed545d280e4fb550687a74e3981b30d
 >
 app/.gitignore,5\1\51e1c5d383dfaa35e0e7e5873a0a99355a86880f
 F

@@ -12,18 +12,18 @@ import java.util.List;
 import ch.hslu.mobpro.donotforget.R;
 
 public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
-    public TodoItemsAdapter(Context context, List<TodoItem> todoitems){ super(context, 0, todoitems); }
+    public TodoItemsAdapter(final Context context, final List<TodoItem> todoitems){ super(context, 0, todoitems); }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
-        TodoItem todoitem = getItem(position);
+        final TodoItem todoitem = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_todo_item_item, parent, false);
         }
         // Lookup view for data population
-        TextView title = convertView.findViewById(R.id.titleTodoItem);
+        final TextView title = convertView.findViewById(R.id.titleTodoItem);
 
         // Populate the data into the template view using the data object
         title.setText(todoitem.title);

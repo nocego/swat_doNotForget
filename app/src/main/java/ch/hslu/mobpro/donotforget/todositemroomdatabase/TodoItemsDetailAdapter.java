@@ -17,13 +17,13 @@ import ch.hslu.mobpro.donotforget.TodoItemEdit;
 
 public class TodoItemsDetailAdapter extends ArrayAdapter<TodoItem> {
     TodoDetail parent;
-    public TodoItemsDetailAdapter(Context context, List<TodoItem> todoitems, TodoDetail parent){
+    public TodoItemsDetailAdapter(final Context context, final List<TodoItem> todoitems, final TodoDetail parent){
         super(context, 0, todoitems);
         this.parent = parent;
     }
 
     @Override
-    public View getView(int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
         final TodoItem todoitem = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
@@ -31,18 +31,15 @@ public class TodoItemsDetailAdapter extends ArrayAdapter<TodoItem> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_todo_item_detail, parent, false);
         }
         // Lookup view for data population
-        TextView title = convertView.findViewById(R.id.titleTodoItem);
-        TextView date = convertView.findViewById(R.id.dateTodoItem);
-        TextView place = convertView.findViewById(R.id.placeTodoItem);
-        TextView staff = convertView.findViewById(R.id.staffTodoItem);
-        TextView inCalendar = convertView.findViewById(R.id.inCalendarTodoItem);
-        Button editButton = convertView.findViewById(R.id.button17);
-        Button deleteButton = convertView.findViewById(R.id.button16);
+        final TextView title = convertView.findViewById(R.id.titleTodoItem);
+        final TextView date = convertView.findViewById(R.id.dateTodoItem);
+        final TextView place = convertView.findViewById(R.id.placeTodoItem);
+        final TextView staff = convertView.findViewById(R.id.staffTodoItem);
+        final TextView inCalendar = convertView.findViewById(R.id.inCalendarTodoItem);
+        final Button editButton = convertView.findViewById(R.id.button17);
+        final Button deleteButton = convertView.findViewById(R.id.button16);
 
-        String inKalender = "Nein";
-        if(todoitem.inCalendar){
-            inKalender = "Ja";
-        }
+        final String inKalender = isInCalendar(todoitem);
         // Populate the data into the template view using the data object
         title.setText(todoitem.title);
         date.setText(todoitem.date);
@@ -51,8 +48,9 @@ public class TodoItemsDetailAdapter extends ArrayAdapter<TodoItem> {
         inCalendar.setText(inKalender);
 
         editButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
-                Intent intent = new Intent(getContext(), TodoItemEdit.class);
+            @Override
+            public void onClick(final View arg0){
+                final Intent intent = new Intent(getContext(), TodoItemEdit.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("todoItemId", todoitem.id);
                 getContext().startActivity(intent);
@@ -60,7 +58,8 @@ public class TodoItemsDetailAdapter extends ArrayAdapter<TodoItem> {
         });
 
         deleteButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View arg0){
+            @Override
+            public void onClick(final View arg0){
                 callCreateConfirmationAlertTodoItem(todoitem.title, todoitem.id);
             }
         });
@@ -69,7 +68,11 @@ public class TodoItemsDetailAdapter extends ArrayAdapter<TodoItem> {
         return convertView;
     }
 
-    public void callCreateConfirmationAlertTodoItem(String todoItemTitle, int todoItemId){
+    public void callCreateConfirmationAlertTodoItem(final String todoItemTitle, final int todoItemId){
         this.parent.createConfirmationAlertTodoItem(todoItemTitle, todoItemId);
+    }
+
+    private String isInCalendar(final TodoItem todoItem){
+        return (todoItem.inCalendar) ? "Ja" : "Nein";
     }
 }

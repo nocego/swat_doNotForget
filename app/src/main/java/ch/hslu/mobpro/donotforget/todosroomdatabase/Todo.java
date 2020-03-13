@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = "todos")
 public class Todo {
     @PrimaryKey(autoGenerate = true)
@@ -14,7 +16,7 @@ public class Todo {
     public String title;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
 
         // If the object is compared with itself then return true
         if (o == this) {
@@ -28,9 +30,14 @@ public class Todo {
         }
 
         // typecast o to Complex so that we can compare data members
-        Todo c = (Todo) o;
+        final Todo c = (Todo) o;
 
         // Compare the data members and return accordingly
         return title.equals(c.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
     }
 }
