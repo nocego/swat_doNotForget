@@ -19,30 +19,24 @@ public class DatePickerFragment extends DialogFragment
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
 
         dateListener = (DateListener) context;
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        if(getArguments() != null) {
-            day = getArguments().getInt("day");
-            month = getArguments().getInt("month")-1;
-            year = getArguments().getInt("year");
-        }
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
+        final Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+    public void onDateSet(final DatePicker view, final int year, final int month, final int day) {
         if (dateListener != null) {
             dateListener.onDateSet(view, year, month, day);
         }
