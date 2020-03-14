@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,24 +21,22 @@ import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
 import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
 import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {//NOPMD
 
     private NotesDatabase notesDb;
     private List<Note> noteList;
-    EditText editText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //hide action bar
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         setupViewPager();
         getDb();
         fillNoteList();
-        editText = findViewById(R.id.editText);
     }
 
     @Override
@@ -47,50 +44,50 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         int currentTabIndex;
-        Intent intent = getIntent();
-        if(intent.getExtras() != null) {
-            currentTabIndex = intent.getExtras().getInt("currentTabIndex");
-        } else {
+        final Intent intent = getIntent();
+        if (intent.getExtras() == null) {
             currentTabIndex = 0;
+        } else {
+            currentTabIndex = intent.getExtras().getInt("currentTabIndex");
         }
         selectTab(currentTabIndex);
         updatePreferences();
     }
 
-    public void openNoteDetail(View v){
-        Intent intent = new Intent(MainActivity.this, NoteDetail.class);
+    public void openNoteDetail(final View v){//NOPMD
+        final Intent intent = new Intent(MainActivity.this, NoteDetail.class);
         startActivity(intent);
     }
 
-    public void openNoteNew(View v){
-        Intent intent = new Intent(MainActivity.this, NoteNew.class);
+    public void openNoteNew(final View v){//NOPMD
+        final Intent intent = new Intent(MainActivity.this, NoteNew.class);
         startActivity(intent);
     }
 
-    public void openTodoDetail(View v){
-        Intent intent = new Intent(MainActivity.this, TodoDetail.class);
+    public void openTodoDetail(final View v){//NOPMD
+        final Intent intent = new Intent(MainActivity.this, TodoDetail.class);
         startActivity(intent);
     }
 
-    public void openTodoNew(View v){
-        Intent intent = new Intent(MainActivity.this, ToDoNew.class);
+    public void openTodoNew(final View v){//NOPMD
+        final Intent intent = new Intent(MainActivity.this, ToDoNew.class);
         startActivity(intent);
     }
 
     private void setupViewPager(){
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        final ViewPager viewPager = findViewById(R.id.viewPager);
 
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
+        final SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
 
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
+        final TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void selectTab(int chosenTabIndex){
-        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
-        TabLayout.Tab tab = tabLayout.getTabAt(chosenTabIndex);
+    private void selectTab(final int chosenTabIndex){
+        final TabLayout tabLayout = findViewById(R.id.sliding_tabs);
+        final TabLayout.Tab tab = tabLayout.getTabAt(chosenTabIndex);
         tab.select();
     }
 
@@ -103,16 +100,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fillNoteList(){
-        NoteDao noteDao = notesDb.noteDao();
+        final NoteDao noteDao = notesDb.noteDao();
         noteList = noteDao.getAll();
     }
 
     public void updatePreferences(){
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
+        final SharedPreferences.Editor editor = preferences.edit();
 
-        Set<String> notetitles = new HashSet<>();
-        for(Note note: noteList){
+        final Set<String> notetitles = new HashSet<>();
+        for(final Note note: noteList){
             notetitles.add(note.title);
         }
         editor.putStringSet("text", notetitles);
@@ -121,10 +118,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateWidget(){
-        ComponentName widget = new ComponentName(this, DoNotForgetWidgetProvider.class);
-        int[] appWidgetIds = AppWidgetManager.getInstance(this).getAppWidgetIds(widget);
+        final ComponentName widget = new ComponentName(this, DoNotForgetWidgetProvider.class);
+        final int[] appWidgetIds = AppWidgetManager.getInstance(this).getAppWidgetIds(widget);
 
-        Intent updateWidget = new Intent(this, DoNotForgetWidgetProvider.class);
+        final Intent updateWidget = new Intent(this, DoNotForgetWidgetProvider.class);
         updateWidget.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         updateWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         this.sendBroadcast(updateWidget);
