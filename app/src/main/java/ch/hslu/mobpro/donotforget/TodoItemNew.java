@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItem;
 import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemDao;
@@ -28,13 +29,13 @@ public class TodoItemNew extends AppCompatActivity implements TimePickerFragment
     private TodoItemDao todoItemDao;
     private int currentTodoId;
     private final Calendar calendar = Calendar.getInstance();
-    private boolean canWriteToCalendar = false;
+    private boolean canWriteToCalendar = false;//NOPMD
     private long calendarEventId = -1;
     private CheckBox calendarCheckbox;
     private TodoItemHelper helper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_item_new);
         calendarCheckbox = findViewById(R.id.checkBox);
@@ -43,37 +44,37 @@ public class TodoItemNew extends AppCompatActivity implements TimePickerFragment
         addBackButtonToActionBar();
         createTodoItemsDb();
 
-        getTodoIdFromIntent();
+        setTodoIdFromIntent();
         helper = new TodoItemHelper();
         canWriteToCalendar = helper.askPermissionReadCalendar(this);
         canWriteToCalendar = helper.askPermissionWriteCalendar(this);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             openTodoDetail();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void openTodoDetail(View v) {
+    public void openTodoDetail(final View v) {//NOPMD
         openTodoDetail();
     }
 
     private void openTodoDetail() {
-        Intent intent = new Intent(this, TodoDetail.class);
+        final Intent intent = new Intent(this, TodoDetail.class);
         intent.putExtra("todoId", currentTodoId);
         startActivity(intent);
     }
 
-    public void saveNewTodoItem(View v) {
-        EditText title = findViewById(R.id.editText5);
-        Button date = findViewById(R.id.dateButton);
-        Button time = findViewById(R.id.timeButton);
-        EditText place = findViewById(R.id.editText6);
-        EditText staff = findViewById(R.id.editText8);
-        CheckBox inCalendar = findViewById(R.id.checkBox);
+    public void saveNewTodoItem(final View v) {//NOPMD
+        final EditText title = findViewById(R.id.editText5);
+        final Button date = findViewById(R.id.dateButton);
+        final Button time = findViewById(R.id.timeButton);
+        final EditText place = findViewById(R.id.editText6);
+        final EditText staff = findViewById(R.id.editText8);
+        final CheckBox inCalendar = findViewById(R.id.checkBox);
 
         CharSequence dateFinal = "01.01.1970";
         if (!date.getText().equals("Datum")) {
@@ -84,7 +85,7 @@ public class TodoItemNew extends AppCompatActivity implements TimePickerFragment
         if (!time.getText().equals("Zeit")) {
             timeFinal = time.getText();
         }
-        TodoItem todoitem = new TodoItem();
+        final TodoItem todoitem = new TodoItem();
         todoitem.todoId = currentTodoId;
         todoitem.title = title.getText().toString();
         todoitem.date = dateFinal + " " + timeFinal;
@@ -107,19 +108,19 @@ public class TodoItemNew extends AppCompatActivity implements TimePickerFragment
         openTodoDetail();
     }
 
-    private void renameActionBar(String name) {
-        ActionBar actionBar = getSupportActionBar();
+    private void renameActionBar(final String name) {
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(name);
     }
 
     private void addBackButtonToActionBar() {
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
 
     private void createTodoItemsDb() {
-        TodoItemsDatabase todoItemsDb = Room.databaseBuilder(
+        final TodoItemsDatabase todoItemsDb = Room.databaseBuilder(
                 getApplicationContext(),
                 TodoItemsDatabase.class,
                 "todoitems_database"
@@ -127,52 +128,52 @@ public class TodoItemNew extends AppCompatActivity implements TimePickerFragment
         todoItemDao = todoItemsDb.todoItemDao();
     }
 
-    private void getTodoIdFromIntent() {
+    private void setTodoIdFromIntent() {
         currentTodoId = getIntent().getExtras().getInt("todoId");
     }
 
     private void updateDateButtonLabel() {
         final String year = String.valueOf(this.calendar.get(Calendar.YEAR));
-        final String month = String.format("%02d", this.calendar.get(Calendar.MONTH) + 1);
-        final String day = String.format("%02d", this.calendar.get(Calendar.DAY_OF_MONTH));
+        final String month = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.MONTH) + 1);
+        final String day = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.DAY_OF_MONTH));
 
-        Button button = findViewById(R.id.dateButton);
-        button.setText(day + "." + month + "." + year);
+        final Button button = findViewById(R.id.dateButton);
+        button.setText(String.format("%s.%s.%s", day, month, year));
     }
 
     private void updateTimeButtonLabel() {
-        final String hour = String.format("%02d", this.calendar.get(Calendar.HOUR_OF_DAY));
-        final String minute = String.format("%02d", this.calendar.get(Calendar.MINUTE));
+        final String hour = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.HOUR_OF_DAY));
+        final String minute = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.MINUTE));
 
-        Button button = findViewById(R.id.timeButton);
-        button.setText(hour + ":" + minute);
+        final Button button = findViewById(R.id.timeButton);
+        button.setText(String.format("%s:%s", hour, minute));
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+    public void onDateSet(final DatePicker view, final int year, final int month, final int day) {
         this.calendar.set(year, month, day);
         this.updateDateButtonLabel();
     }
 
-    public void dateButtonClicked(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
+    public void dateButtonClicked(final View v) {//NOPMD
+        final DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void timeButtonClicked(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
+    public void timeButtonClicked(final View v) {//NOPMD
+        final DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
         this.calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         this.calendar.set(Calendar.MINUTE, minute);
         this.updateTimeButtonLabel();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 1:

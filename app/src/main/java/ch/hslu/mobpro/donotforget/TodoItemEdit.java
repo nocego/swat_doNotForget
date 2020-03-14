@@ -23,6 +23,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItem;
 import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemDao;
@@ -31,7 +32,7 @@ import ch.hslu.mobpro.donotforget.todositemroomdatabase.TodoItemsDatabase;
 public class TodoItemEdit extends AppCompatActivity implements DatePickerFragment.DateListener, TimePickerFragment.TimeListener{
 
     private TodoItemsDatabase todoItemsDb;
-    private boolean canWriteToCalendar = false;
+    private boolean canWriteToCalendar = false;//NOPMD
     private TodoItemDao todoItemDao;
     private TodoItem currentTodoItem;
     private EditText title;
@@ -46,19 +47,19 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
     private TodoItemHelper helper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_item_edit);
         calendarCheckbox = findViewById(R.id.checkBox2);
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("To-Do-Item bearbeiten");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        getDb();
-        Intent intent = getIntent();
-        getCurrentTodoItem(intent);
+        setDb();
+        final Intent intent = getIntent();
+        setCurrentTodoItem(intent);
         fillActivity();
 
         helper = new TodoItemHelper();
@@ -67,7 +68,7 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
             openTodoDetail();
@@ -75,17 +76,17 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         return super.onOptionsItemSelected(item);
     }
 
-    public void openTodoDetail(View v){
+    public void openTodoDetail(View v){//NOPMD
         openTodoDetail();
     }
 
     private void openTodoDetail(){
-        Intent intent = new Intent(this, TodoDetail.class);
+        final Intent intent = new Intent(this, TodoDetail.class);
         intent.putExtra("todoId", currentTodoItem.todoId);
         startActivity(intent);
     }
 
-    private void getDb(){
+    private void setDb(){
         todoItemsDb = Room.databaseBuilder(
                 this,
                 TodoItemsDatabase.class,
@@ -93,8 +94,8 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         ).allowMainThreadQueries().build();
     }
 
-    private void getCurrentTodoItem(Intent intent){
-        int todoItemId = intent.getExtras().getInt("todoItemId");
+    private void setCurrentTodoItem(final Intent intent){
+        final int todoItemId = intent.getExtras().getInt("todoItemId");
         todoItemDao = todoItemsDb.todoItemDao();
         currentTodoItem = todoItemDao.findById(todoItemId);
     }
@@ -117,7 +118,7 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         inCalendar.setChecked(currentTodoItem.inCalendar);
     }
 
-    public void udpateTodo(View v){
+    public void udpateTodo(View v){//NOPMD
         currentTodoItem.title = title.getText().toString();
         currentTodoItem.date=date.getText().toString()+" "+time.getText().toString();
         currentTodoItem.place=place.getText().toString();
@@ -148,64 +149,64 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+    public void onDateSet(final DatePicker view, final int year, final int month, final int day) {
         this.calendar.set(year, month, day);
         this.updateDateButtonLabel();
     }
 
-    public void dateButtonClicked(View v) {
-        String[] splittedDate = (splittedDateTime[0]).split("\\.");
+    public void dateButtonClicked(View v) {//NOPMD
+        final String[] splittedDate = splittedDateTime[0].split("\\.");
 
-        Bundle arguments = new Bundle();
+        final Bundle arguments = new Bundle();
         arguments.putSerializable("day", Integer.parseInt(splittedDate[0]));
         arguments.putSerializable("month", Integer.parseInt(splittedDate[1]));
         arguments.putSerializable("year", Integer.parseInt(splittedDate[2]));
 
-        DialogFragment newFragment = new DatePickerFragment();
+        final DialogFragment newFragment = new DatePickerFragment();
         newFragment.setArguments(arguments);
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     private void updateDateButtonLabel() {
         final String year = String.valueOf(this.calendar.get(Calendar.YEAR));
-        final String month = String.format("%02d", this.calendar.get(Calendar.MONTH)+1);
-        final String day = String.format("%02d", this.calendar.get(Calendar.DAY_OF_MONTH));
+        final String month = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.MONTH)+1);
+        final String day = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.DAY_OF_MONTH));
 
-        Button button = findViewById(R.id.dateButton2);
-        String dateCorrect = day + "." + month + "." + year;
+        final Button button = findViewById(R.id.dateButton2);
+        final String dateCorrect = day + "." + month + "." + year;
         button.setText(dateCorrect);
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
         this.calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         this.calendar.set(Calendar.MINUTE, minute);
         this.updateTimeButtonLabel();
     }
 
-    public void timeButtonClicked(View v) {
-        String[] splittedTime = (splittedDateTime[1]).split("\\:");
+    public void timeButtonClicked(View v) {//NOPMD
+        final String[] splittedTime = splittedDateTime[1].split(":");
 
-        Bundle arguments = new Bundle();
+        final Bundle arguments = new Bundle();
         arguments.putSerializable("hour", Integer.parseInt(splittedTime[0]));
         arguments.putSerializable("minute", Integer.parseInt(splittedTime[1]));
 
-        DialogFragment newFragment = new TimePickerFragment();
+        final DialogFragment newFragment = new TimePickerFragment();
         newFragment.setArguments(arguments);
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     private void updateTimeButtonLabel() {
-        final String hour = String.format("%02d", this.calendar.get(Calendar.HOUR_OF_DAY));
-        final String minute = String.format("%02d", this.calendar.get(Calendar.MINUTE));
+        final String hour = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.HOUR_OF_DAY));
+        final String minute = String.format(Locale.GERMANY, "%02d", this.calendar.get(Calendar.MINUTE));
 
-        Button button = findViewById(R.id.timeButton2);
-        String timeCorrect = hour + ":" + minute;
+        final Button button = findViewById(R.id.timeButton2);
+        final String timeCorrect = hour + ":" + minute;
         button.setText(timeCorrect);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 1:
@@ -235,30 +236,31 @@ public class TodoItemEdit extends AppCompatActivity implements DatePickerFragmen
         }
     }
 
-    private long updateCalendarEntry(long eventId, String title, String location, String dateInString, String attendee){
-        long startDate = helper.getStartDate(dateInString);
-        long endDate = helper.getEndDate(startDate, 1);
+    private long updateCalendarEntry(final long eventId, final String title, final String location, final String dateInString, final String attendee){
+        long newEventId;
+        final long startDate = helper.getStartDate(dateInString);
+        final long endDate = helper.getEndDate(startDate, 1);
 
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(CalendarContract.Events.TITLE, title);
         values.put(CalendarContract.Events.EVENT_LOCATION, location);
         values.put(CalendarContract.Events.DTSTART, startDate);
         values.put(CalendarContract.Events.DTEND, endDate);
-        Uri updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
+        final Uri updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
         this.getApplicationContext().getContentResolver().update(updateUri, values, null, null);
 
-        eventId = Long.parseLong(updateUri.getLastPathSegment());
+        newEventId = Long.parseLong(updateUri.getLastPathSegment());
 
         if(attendee != null){
-            helper.addAttendee(this, eventId, attendee);
+            helper.addAttendee(this, newEventId, attendee);
         }
 
-        return eventId;
+        return newEventId;
     }
 
-    private void deleteCalendarEntry(long eventId){
-        ContentResolver cr = this.getApplicationContext().getContentResolver();
-        Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
-        cr.delete(deleteUri, null, null);
+    private void deleteCalendarEntry(final long eventId){
+        final ContentResolver contRes = this.getApplicationContext().getContentResolver();
+        final Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
+        contRes.delete(deleteUri, null, null);
     }
 }
