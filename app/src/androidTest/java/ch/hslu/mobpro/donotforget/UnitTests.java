@@ -1,6 +1,5 @@
 package ch.hslu.mobpro.donotforget;
 
-import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -24,21 +23,25 @@ import static org.junit.Assert.*;
 @MediumTest
 @RunWith(AndroidJUnit4.class)
 public class UnitTests {
+
+    private final static String TEST_TITLE = "TestTitle";
+    private final static String TITLE_WITH_UMLAUT = "äöüTitle";
+
     @Test
     public void writeRegularNoteToDb()  {
         //arrange
-        NotesDatabase notesDb = getNotesDatabase();
-        NoteDao noteDao = notesDb.noteDao();
-        int numberOfNotesBeforeTest = noteDao.getAll().size();
-        Note note = createNote("TestTitle", "TestContent");
+        final NotesDatabase notesDb = getNotesDatabase();
+        final NoteDao noteDao = notesDb.noteDao();
+        final int numberOfNotesBeforeTest = noteDao.getAll().size();//NOPMD
+        final Note note = createNote(TEST_TITLE, "TestContent");
 
         //act
         noteDao.insertAll(note);
         waitForNotesToBecomeThatMany(numberOfNotesBeforeTest+1, noteDao);
-        List<Note> noteList = noteDao.getAll();
+        final List<Note> noteList = noteDao.getAll();
 
         //assert
-        assertEquals(note, noteList.get(numberOfNotesBeforeTest));
+        assertEquals(note, noteList.get(numberOfNotesBeforeTest));//NOPMD
 
         //revert
         noteDao.deleteNotes(noteList.get(numberOfNotesBeforeTest));
@@ -47,17 +50,17 @@ public class UnitTests {
     @Test
     public void writeNoteWithUmlaut(){
         //arrange
-        NoteDao noteDao = getNoteDao();
-        int numberOfNotesBeforeTest = noteDao.getAll().size();
-        Note note = createNote("äöüTitle", "äöüContent");
+        final NoteDao noteDao = getNoteDao();
+        final int numberOfNotesBeforeTest = noteDao.getAll().size();//NOPMD
+        final Note note = createNote(TITLE_WITH_UMLAUT, "äöüContent");
 
         //act
         noteDao.insertAll(note);
         waitForNotesToBecomeThatMany(numberOfNotesBeforeTest+1, noteDao);
-        List<Note> noteList = noteDao.getAll();
+        final List<Note> noteList = noteDao.getAll();
 
         //assert
-        assertEquals(note, noteList.get(numberOfNotesBeforeTest));
+        assertEquals(note, noteList.get(numberOfNotesBeforeTest));//NOPMD
 
         //revert
         noteDao.deleteNotes(noteList.get(numberOfNotesBeforeTest));
@@ -66,17 +69,17 @@ public class UnitTests {
     @Test
     public void writeEmptyNote(){
         //arrange
-        NoteDao noteDao = getNoteDao();
-        int numberOfNotesBeforeTest = noteDao.getAll().size();
-        Note note = createNote("", "");
+        final NoteDao noteDao = getNoteDao();
+        final int numberOfNotesBeforeTest = noteDao.getAll().size();//NOPMD
+        final Note note = createNote("", "");
 
         //act
         noteDao.insertAll(note);
         waitForNotesToBecomeThatMany(numberOfNotesBeforeTest+1, noteDao);
-        List<Note> noteList = noteDao.getAll();
+        final List<Note> noteList = noteDao.getAll();
 
         //assert
-        assertEquals(note, noteList.get(numberOfNotesBeforeTest));
+        assertEquals(note, noteList.get(numberOfNotesBeforeTest));//NOPMD
 
         //revert
         noteDao.deleteNotes(noteList.get(numberOfNotesBeforeTest));
@@ -85,35 +88,35 @@ public class UnitTests {
     @Test
     public void deleteNote(){
         //arrange
-        NoteDao noteDao = getNoteDao();
-        int numberOfNotesBeforeTest = noteDao.getAll().size();
-        Note note = createNote("äöüTitle", "äöüContent");
+        final NoteDao noteDao = getNoteDao();
+        final int numberOfNotesBeforeTest = noteDao.getAll().size();//NOPMD
+        final Note note = createNote(TITLE_WITH_UMLAUT, "äöüContent");
 
         //act
         noteDao.insertAll(note);
         waitForNotesToBecomeThatMany(numberOfNotesBeforeTest+1, noteDao);
-        List<Note> noteList = noteDao.getAll();
+        final List<Note> noteList = noteDao.getAll();
         noteDao.deleteNotes(noteList.get(numberOfNotesBeforeTest));
         waitForNotesToBecomeThatMany(numberOfNotesBeforeTest, noteDao);
 
         //assert
-        assertEquals(noteDao.getAll().size(), numberOfNotesBeforeTest);
+        assertEquals(noteDao.getAll().size(), numberOfNotesBeforeTest);//NOPMD
     }
 
     @Test
     public void writeRegularTodo(){
         //arrange
-        TodoDao todoDao = getTodoDao();
-        int numberOfTodosBeforeTest = todoDao.getAll().size();
-        Todo todo = createTodo("TestTitle");
+        final TodoDao todoDao = getTodoDao();
+        final int numberOfTodosBeforeTest = todoDao.getAll().size();//NOPMD
+        final Todo todo = createTodo(TEST_TITLE);
 
         //act
         todoDao.insertAll(todo);
         waitForTodosToBecomeThatMany(numberOfTodosBeforeTest+1, todoDao);
-        List<Todo> todoList = todoDao.getAll();
+        final List<Todo> todoList = todoDao.getAll();
 
         //assert
-        assertEquals(todo, (todoList.get(numberOfTodosBeforeTest)));
+        assertEquals(todo, (todoList.get(numberOfTodosBeforeTest)));//NOPMD
 
         //revert
         todoDao.deleteTodos(todoList.get(numberOfTodosBeforeTest));
@@ -122,17 +125,17 @@ public class UnitTests {
     @Test
     public void writeTodoWithUmlaut(){
         //arrange
-        TodoDao todoDao = getTodoDao();
-        int numberOfTodosBeforeTest = todoDao.getAll().size();
-        Todo todo = createTodo("äöüTitle");
+        final TodoDao todoDao = getTodoDao();
+        final int numberOfTodosBeforeTest = todoDao.getAll().size();//NOPMD
+        final Todo todo = createTodo(TITLE_WITH_UMLAUT);
 
         //act
         todoDao.insertAll(todo);
         waitForTodosToBecomeThatMany(numberOfTodosBeforeTest+1, todoDao);
-        List<Todo> todoList = todoDao.getAll();
+        final List<Todo> todoList = todoDao.getAll();
 
         //assert
-        assertEquals(todo, (todoList.get(numberOfTodosBeforeTest)));
+        assertEquals(todo, (todoList.get(numberOfTodosBeforeTest)));//NOPMD
 
         //revert
         todoDao.deleteTodos(todoList.get(numberOfTodosBeforeTest));
@@ -141,17 +144,17 @@ public class UnitTests {
     @Test
     public void writeEmptyTodo(){
         //arrange
-        TodoDao todoDao = getTodoDao();
-        int numberOfTodosBeforeTest = todoDao.getAll().size();
-        Todo todo = createTodo("");
+        final TodoDao todoDao = getTodoDao();
+        final int numberOfTodosBeforeTest = todoDao.getAll().size();//NOPMD
+        final Todo todo = createTodo("");
 
         //act
         todoDao.insertAll(todo);
         waitForTodosToBecomeThatMany(numberOfTodosBeforeTest+1, todoDao);
-        List<Todo> todoList = todoDao.getAll();
+        final List<Todo> todoList = todoDao.getAll();
 
         //assert
-        assertEquals(todo, (todoList.get(numberOfTodosBeforeTest)));
+        assertEquals(todo, (todoList.get(numberOfTodosBeforeTest)));//NOPMD
 
         //revert
         todoDao.deleteTodos(todoList.get(numberOfTodosBeforeTest));
@@ -160,45 +163,45 @@ public class UnitTests {
     @Test
     public void deleteTodo(){
         //arrange
-        TodoDao todoDao = getTodoDao();
-        int numberOfTodosBeforeTest = todoDao.getAll().size();
-        Todo todo = createTodo("äöüTitle");
+        final TodoDao todoDao = getTodoDao();
+        final int numberOfTodosBeforeTest = todoDao.getAll().size();//NOPMD
+        final Todo todo = createTodo(TITLE_WITH_UMLAUT);
 
         //act
         todoDao.insertAll(todo);
         waitForTodosToBecomeThatMany(numberOfTodosBeforeTest+1, todoDao);
-        List<Todo> noteList = todoDao.getAll();
+        final List<Todo> noteList = todoDao.getAll();
         todoDao.deleteTodos(noteList.get(numberOfTodosBeforeTest));
         waitForTodosToBecomeThatMany(numberOfTodosBeforeTest, todoDao);
 
         //assert
-        assertEquals(todoDao.getAll().size(), numberOfTodosBeforeTest);
+        assertEquals(todoDao.getAll().size(), numberOfTodosBeforeTest);//NOPMD
     }
 
     @Test
     public void writeRegularTodoItem()  {
         //arrange
-        TodoDao todoDao = getTodoDao();
-        int numberOfTodosBeforeTest = todoDao.getAll().size();
-        Todo todo = createTodo("TestTitle");
+        final TodoDao todoDao = getTodoDao();
+        final int numberOfTodosBeforeTest = todoDao.getAll().size();//NOPMD
+        final Todo todo = createTodo(TEST_TITLE);
         todoDao.insertAll(todo);
         waitForTodosToBecomeThatMany(numberOfTodosBeforeTest+1, todoDao);
-        List<Todo> todoList = todoDao.getAll();
-        Todo createdTodo = todoList.get(numberOfTodosBeforeTest);
+        final List<Todo> todoList = todoDao.getAll();
+        final Todo createdTodo = todoList.get(numberOfTodosBeforeTest);
 
-        TodoItemsDatabase todoItemsDb = getTodoItemsDatabase();
-        TodoItemDao todoItemDao = todoItemsDb.todoItemDao();
-        int numberOFTodoItemsBeforeTest = todoItemDao.getAll().size();
+        final TodoItemsDatabase todoItemsDb = getTodoItemsDatabase();
+        final TodoItemDao todoItemDao = todoItemsDb.todoItemDao();
+        final int numberOFTodoItemsBeforeTest = todoItemDao.getAll().size();//NOPMD
 
-        TodoItem todoItem = createTodoItem(createdTodo.id, "TestTitle", "01.01.2020", "Rotkreuz", "Gerold", false);
+        final TodoItem todoItem = createTodoItem(createdTodo.id, TEST_TITLE, "01.01.2020", "Rotkreuz", "Gerold", false);
 
         //act
         todoItemDao.insertAllTodoItem(todoItem);
         waitForTodoItemsToBecomeThatMany(numberOFTodoItemsBeforeTest+1, todoItemDao);
-        List<TodoItem> todoItemList = todoItemDao.getAll();
+        final List<TodoItem> todoItemList = todoItemDao.getAll();
 
         //assert
-        assertEquals(todoItem, todoItemList.get(numberOFTodoItemsBeforeTest));
+        assertEquals(todoItem, todoItemList.get(numberOFTodoItemsBeforeTest));//NOPMD
 
         //revert
         todoItemDao.deleteTodoItems(todoItemList.get(numberOFTodoItemsBeforeTest));
@@ -247,42 +250,42 @@ public class UnitTests {
                 .getApplicationContext();
     }
 
-    private void waitForNotesToBecomeThatMany(int numberOfWishedNotes, NoteDao noteDao){
+    private void waitForNotesToBecomeThatMany(final int numberOfWishedNotes, final NoteDao noteDao){//NOPMD
         List<Note> allNotes;
         do{
             allNotes = noteDao.getAll();
         }while(allNotes.size() != numberOfWishedNotes);
     }
 
-    private void waitForTodosToBecomeThatMany(int numberOfWishedTodos, TodoDao todoDao){
+    private void waitForTodosToBecomeThatMany(final int numberOfWishedTodos, final TodoDao todoDao){//NOPMD
         List<Todo> allTodos;
         do{
             allTodos = todoDao.getAll();
         }while (allTodos.size() != numberOfWishedTodos);
     }
 
-    private void waitForTodoItemsToBecomeThatMany(int numberOfWishedTodoItems, TodoItemDao todoItemDao){
+    private void waitForTodoItemsToBecomeThatMany(final int numberOfWishedTodoItems, final TodoItemDao todoItemDao){//NOPMD
         List<TodoItem> allTodoItems;
         do{
             allTodoItems = todoItemDao.getAll();
         }while (allTodoItems.size() != numberOfWishedTodoItems);
     }
 
-    private Note createNote(String title, String content){
-        Note note = new Note();
+    private Note createNote(final String title, final String content){
+        final Note note = new Note();
         note.title=title;
         note.content=content;
         return note;
     }
 
-    private Todo createTodo(String title){
-        Todo todo = new Todo();
+    private Todo createTodo(final String title){
+        final Todo todo = new Todo();
         todo.title=title;
         return todo;
     }
 
-    private TodoItem createTodoItem(int todoId, String title, String date, String place, String staff, boolean inCalendar){
-        TodoItem todoItem = new TodoItem();
+    private TodoItem createTodoItem(final int todoId, final String title, final String date, final String place, final String staff, final boolean inCalendar){
+        final TodoItem todoItem = new TodoItem();
         todoItem.todoId = todoId;
         todoItem.title = title;
         todoItem.date = date;
