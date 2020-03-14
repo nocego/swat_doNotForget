@@ -26,8 +26,10 @@ public class DatePickerFragment extends DialogFragment
     }
 
     @Override
-    public Dialog onCreateDialog(final Bundle savedInstanceState) {
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {//NOPMD
         final Calendar calendar = Calendar.getInstance();
+
+        //todo get date for datepicker from arguments if not null
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);

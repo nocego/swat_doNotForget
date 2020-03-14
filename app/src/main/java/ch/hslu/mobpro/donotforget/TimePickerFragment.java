@@ -20,22 +20,16 @@ public interface TimeListener {
 }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
 
         timeListener = (TimeListener) context;
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
-        if(getArguments() != null) {
-            hour = getArguments().getInt("hour");
-            minute = getArguments().getInt("minute");
-        }
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {//NOPMD
+        final int hour = getHour();
+        final int minute = getMinute();
 
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
@@ -43,9 +37,17 @@ public interface TimeListener {
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
         if (timeListener != null) {
             timeListener.onTimeSet(view, hourOfDay, minute);
         }
+    }
+
+    private int getHour(){
+        return getArguments() == null ? Calendar.getInstance().get(Calendar.HOUR_OF_DAY) : getArguments().getInt("hour");
+    }
+
+    private int getMinute(){
+        return getArguments() == null ? Calendar.getInstance().get(Calendar.MINUTE) : getArguments().getInt("minute");
     }
 }
