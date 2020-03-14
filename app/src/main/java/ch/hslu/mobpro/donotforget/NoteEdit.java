@@ -17,29 +17,29 @@ import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 public class NoteEdit extends AppCompatActivity {
 
     private NotesDatabase notesDb;
-    NoteDao noteDao;
-    Note currentNote;
-    EditText title;
-    EditText content;
+    private NoteDao noteDao;
+    private Note currentNote;
+    private EditText title;
+    private EditText content;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Notiz bearbeiten");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        getDb();
-        Intent intent = getIntent();
-        getCurrentNote(intent);
+        setDb();
+        final Intent intent = getIntent();
+        setCurrentNote(intent);
         fillActivity();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
             openNoteDetail();
@@ -47,17 +47,17 @@ public class NoteEdit extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openNoteDetail(View v){
+    public void openNoteDetail(View v){//NOPMD
         openNoteDetail();
     }
 
     private void openNoteDetail(){
-        Intent intent = new Intent(this, NoteDetail.class);
+        final Intent intent = new Intent(this, NoteDetail.class);
         intent.putExtra("noteId", currentNote.id);
         startActivity(intent);
     }
 
-    private void getDb(){
+    private void setDb(){
         notesDb = Room.databaseBuilder(
                 this,
                 NotesDatabase.class,
@@ -65,8 +65,8 @@ public class NoteEdit extends AppCompatActivity {
         ).allowMainThreadQueries().build();
     }
 
-    private void getCurrentNote(Intent intent){
-        int noteId = intent.getExtras().getInt("noteId");
+    private void setCurrentNote(final Intent intent){
+        final int noteId = intent.getExtras().getInt("noteId");
         noteDao = notesDb.noteDao();
         currentNote = noteDao.findById(noteId);
     }
@@ -78,7 +78,7 @@ public class NoteEdit extends AppCompatActivity {
         content.setText(currentNote.content);
     }
 
-    public void updateNote(View v){
+    public void updateNote(View v){//NOPMD
         currentNote.title = title.getText().toString();
         currentNote.content = content.getText().toString();
         noteDao.updateNotes(currentNote);

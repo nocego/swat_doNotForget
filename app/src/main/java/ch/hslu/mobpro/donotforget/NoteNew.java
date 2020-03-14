@@ -19,7 +19,7 @@ public class NoteNew extends AppCompatActivity {
     private NoteDao noteDao;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_new);
 
@@ -29,7 +29,7 @@ public class NoteNew extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
             backToNotes();
@@ -37,14 +37,14 @@ public class NoteNew extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void backToNotes(View v){
+    public void backToNotes(View v){//NOPMD
         backToNotes();
     }
 
-    public void saveNewNote(View v){
-        EditText title = findViewById(R.id.editText);
-        EditText content = findViewById(R.id.editText2);
-        Note note = new Note();
+    public void saveNewNote(View v){//NOPMD
+        final EditText title = findViewById(R.id.editText);
+        final EditText content = findViewById(R.id.editText2);
+        final Note note = new Note();
         note.title=title.getText().toString();
         note.content=content.getText().toString();
         noteDao.insertAll(note);
@@ -53,19 +53,19 @@ public class NoteNew extends AppCompatActivity {
         backToNotes();
     }
 
-    private void renameActionBar(String name){
-        ActionBar actionBar = getSupportActionBar();
+    private void renameActionBar(final String name){
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(name);
     }
 
     private void addBackButtonToActionBar(){
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
 
     private void createNotesDb(){
-        NotesDatabase notesDb = Room.databaseBuilder(
+        final NotesDatabase notesDb = Room.databaseBuilder(
                 getApplicationContext(),
                 NotesDatabase.class,
                 "notes_database"
@@ -74,7 +74,7 @@ public class NoteNew extends AppCompatActivity {
     }
 
     private void backToNotes(){
-        Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("currentTabIndex", 0);
         // clear back stack
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

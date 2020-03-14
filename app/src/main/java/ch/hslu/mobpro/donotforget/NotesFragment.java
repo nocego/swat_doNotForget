@@ -26,38 +26,34 @@ public class NotesFragment extends Fragment {
     private NotesDatabase notesDb;
     private List<Note> noteList;
 
-    public NotesFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             Bundle savedInstanceState) {//NOPMD
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_notes, container, false);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {//NOPMD
         super.onViewCreated(view, savedInstanceState);
 
-        getDb();
+        setDb();
         fillNoteList();
 
-        ArrayList<Note> arrayOfNotes = new ArrayList<>(noteList);
-        NotesAdapter adapter = new NotesAdapter(this.getContext(), arrayOfNotes);
+        final ArrayList<Note> arrayOfNotes = new ArrayList<>(noteList);
+        final NotesAdapter adapter = new NotesAdapter(this.getContext(), arrayOfNotes);
         final ListView list = this.getView().findViewById(R.id.list);
         list.setAdapter(adapter);
 
         addOnItemClickListener(list);
     }
 
-    private void getDb(){
+    private void setDb(){
         notesDb = Room.databaseBuilder(
                 this.getContext(),
                 NotesDatabase.class,
@@ -66,17 +62,17 @@ public class NotesFragment extends Fragment {
     }
 
     private void fillNoteList(){
-        NoteDao noteDao = notesDb.noteDao();
+        final NoteDao noteDao = notesDb.noteDao();
         noteList = noteDao.getAll();
     }
 
     private void addOnItemClickListener(final ListView list){
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Note clickedNote = (Note)list.getItemAtPosition(position);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//NOPMD
+                final Note clickedNote = (Note)list.getItemAtPosition(position);
 
-                Intent intent = new Intent(getContext(), NoteDetail.class);
+                final Intent intent = new Intent(getContext(), NoteDetail.class);
                 intent.putExtra("noteId", clickedNote.id);
                 startActivity(intent);
             }
