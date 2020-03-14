@@ -19,7 +19,7 @@ public class ToDoNew extends AppCompatActivity {
     private TodoDao todoDao;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(final Bundle savedInstanceState){//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_new);
 
@@ -29,7 +29,7 @@ public class ToDoNew extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
             backToTodos();
@@ -37,13 +37,13 @@ public class ToDoNew extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void backToTodos(View v){
+    public void backToTodos(final View v){//NOPMD
         backToTodos();
     }
 
-    public void saveNewTodo(View v){
-        EditText title = findViewById(R.id.editText3);
-        Todo todo = new Todo();
+    public void saveNewTodo(final View v){//NOPMD
+        final EditText title = findViewById(R.id.editText3);
+        final Todo todo = new Todo();
         todo.title=title.getText().toString();
 
         todoDao.insertAll(todo);
@@ -52,19 +52,19 @@ public class ToDoNew extends AppCompatActivity {
         backToTodos();
     }
 
-    private void renameActionBar(String name){
-        ActionBar actionBar = getSupportActionBar();
+    private void renameActionBar(final String name){
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(name);
     }
 
     private void addBackButtonToActionBar(){
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
 
     private void createTodosDb(){
-        TodosDatabase todosDb = Room.databaseBuilder(
+        final TodosDatabase todosDb = Room.databaseBuilder(
                 getApplicationContext(),
                 TodosDatabase.class,
                 "todos_database"
@@ -73,7 +73,7 @@ public class ToDoNew extends AppCompatActivity {
     }
 
     private void backToTodos(){
-        Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("currentTabIndex", 1);
         // clear back stack
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
