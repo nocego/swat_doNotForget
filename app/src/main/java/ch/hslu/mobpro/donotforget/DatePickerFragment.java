@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
@@ -25,14 +26,12 @@ public class DatePickerFragment extends DialogFragment
         dateListener = (DateListener) context;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {//NOPMD
-        final Calendar calendar = Calendar.getInstance();
-
-        //todo get date for datepicker from arguments if not null
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        final int year = getYear();
+        final int month = getMonth();
+        final int day = getDay();
 
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
@@ -42,5 +41,17 @@ public class DatePickerFragment extends DialogFragment
         if (dateListener != null) {
             dateListener.onDateSet(view, year, month, day);
         }
+    }
+
+    private int getYear(){
+        return getArguments() == null ? Calendar.getInstance().get(Calendar.YEAR) : getArguments().getInt("year");
+    }
+
+    private int getMonth(){
+        return getArguments() == null ? Calendar.getInstance().get(Calendar.MONTH) : getArguments().getInt("month")-1;
+    }
+
+    private int getDay(){
+        return getArguments() == null ? Calendar.getInstance().get(Calendar.DAY_OF_MONTH) : getArguments().getInt("day");
     }
 }
