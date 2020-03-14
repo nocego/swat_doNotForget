@@ -25,13 +25,9 @@ public class TodosFragment extends Fragment {
     private TodosDatabase todosDb;
     private List<Todo> todoList;
 
-    public TodosFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {//NOPMD
         return inflater.inflate(R.layout.fragment_todos, container, false);
     }
 
@@ -39,17 +35,17 @@ public class TodosFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        getDb();
+        setDb();
         fillTodoList();
 
-        ArrayList<Todo> arrayOfTodos = new ArrayList<>(todoList);
-        TodosAdapter adapter = new TodosAdapter(this.getContext(), arrayOfTodos);
+        final ArrayList<Todo> arrayOfTodos = new ArrayList<>(todoList);
+        final TodosAdapter adapter = new TodosAdapter(this.getContext(), arrayOfTodos);
         final ListView list = this.getView().findViewById(R.id.list1);
         list.setAdapter(adapter);
         addOnItemClickListener(list);
     }
 
-    private void getDb() {
+    private void setDb() {
         todosDb = Room.databaseBuilder(
                 this.getContext(),
                 TodosDatabase.class,
@@ -58,18 +54,18 @@ public class TodosFragment extends Fragment {
     }
 
     private void fillTodoList() {
-        TodoDao todoDao = todosDb.todoDao();
+        final TodoDao todoDao = todosDb.todoDao();
         todoList = todoDao.getAll();
     }
 
     private void addOnItemClickListener(final ListView list) {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Todo clickedTodo = (Todo) list.getItemAtPosition(position);
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {//NOPMD
+                final Todo clickedTodo = (Todo) list.getItemAtPosition(position);
                 Log.e("asdf", "clicked");
 
-                Intent intent = new Intent(getContext(), TodoDetail.class);
+                final Intent intent = new Intent(getContext(), TodoDetail.class);
                 intent.putExtra("todoId", clickedTodo.id);
                 startActivity(intent);
             }
