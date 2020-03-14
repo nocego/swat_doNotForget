@@ -34,31 +34,27 @@ public class TodoDetail extends AppCompatActivity {
 
     private TodosDatabase todosDb;
     private TodoItemsDatabase todoItemsDb;
-    TodoDao todoDao;
-    TodoItemDao todoItemDao;
-    Todo currentTodo;
-    TodoItem currentTodoItem;
+    private TodoDao todoDao;
+    private TodoItemDao todoItemDao;
+    private Todo currentTodo;
     private List<TodoItem> todoItemList;
     private int currentTodoId;
-    private int currentTodoItemId;
-    private String todoIdString = "todoId";
+    private static final String TODO_ID_STRING = "todoId";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_detail);
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("To-Do");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        getDbs();
-        getDaos();
+        setDbs();
+        setDaos();
         saveTodoId();
-        saveTodoItemId();
-        getCurrentTodo();
-        getCurrentTodoItem();
+        setCurrentTodo();
         fillActivity();
         fillTodoItemList();
     }
@@ -68,8 +64,8 @@ public class TodoDetail extends AppCompatActivity {
         super.onResume();
 
         if(todoItemList != null) {
-            ArrayList<TodoItem> arrayOfTodoItems = new ArrayList<>(todoItemList);
-            TodoItemsDetailAdapter adapter = new TodoItemsDetailAdapter(getApplicationContext(), arrayOfTodoItems, this);
+            final ArrayList<TodoItem> arrayOfTodoItems = new ArrayList<>(todoItemList);
+            final TodoItemsDetailAdapter adapter = new TodoItemsDetailAdapter(getApplicationContext(), arrayOfTodoItems, this);
             final ListView list = findViewById(R.id.list4);
             list.setAdapter(adapter);
             resizeList(list);
@@ -77,7 +73,7 @@ public class TodoDetail extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
             backToTodos();
@@ -85,17 +81,17 @@ public class TodoDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void editTodoClicked(View v){
-        Intent intent = new Intent(this, TodoEdit.class);
-        intent.putExtra(todoIdString, currentTodo.id);
+    public void editTodoClicked(View v){//NOPMD
+        final Intent intent = new Intent(this, TodoEdit.class);
+        intent.putExtra(TODO_ID_STRING, currentTodo.id);
         startActivity(intent);
     }
 
-    public void deleteTodoClicked(View v){
+    public void deleteTodoClicked(View v){//NOPMD
         createConfirmationAlert();
     }
 
-    private void getDbs(){
+    private void setDbs(){
         todosDb = Room.databaseBuilder(
                 this,
                 TodosDatabase.class,
@@ -109,31 +105,29 @@ public class TodoDetail extends AppCompatActivity {
         ).allowMainThreadQueries().build();
     }
 
-    private void getDaos(){
+    private void setDaos(){
         todoDao = todosDb.todoDao();
         todoItemDao = todoItemsDb.todoItemDao();
     }
 
-    private void getCurrentTodo(){
+    private void setCurrentTodo(){
         currentTodo = todoDao.findById(currentTodoId);
     }
 
-    private void getCurrentTodoItem() { currentTodoItem = todoItemDao.findById(currentTodoItemId); }
-
     private void fillActivity() {
-        TextView title = findViewById(R.id.titleTodo);
+        final TextView title = findViewById(R.id.titleTodo);
         title.setText(currentTodo.title);
     }
 
     private void createConfirmationAlert(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Löschen?");
         builder.setMessage("Soll das To-Do \""+currentTodo.title+"\" wirklich gelöscht werden?");
 
         builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(final DialogInterface dialog, final int which) {
                 deleteCurrentTodo();
                 dialog.dismiss();
             }
@@ -141,17 +135,17 @@ public class TodoDetail extends AppCompatActivity {
 
         builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(final DialogInterface dialog, final int which) {
                 dialog.dismiss();
             }
         });
 
-        AlertDialog alert = builder.create();
+        final AlertDialog alert = builder.create();
         alert.show();
     }
 
     private void backToTodos(){
-        Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent = new Intent(this, MainActivity.class);
         // clear back stack
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("currentTabIndex", 1);
@@ -167,15 +161,15 @@ public class TodoDetail extends AppCompatActivity {
         backToTodos();
     }
 
-    private void deleteTodoItemsFromCalendar(List<TodoItem> deleteList){
-        for(TodoItem item:deleteList){
+    private void deleteTodoItemsFromCalendar(final List<TodoItem> deleteList){
+        for(final TodoItem item:deleteList){
             deleteCalendarEntry(item.calendarEventId);
         }
     }
 
-    public void addTodoClicked(View view){
-        Intent intent = new Intent(this, TodoItemNew.class);
-        intent.putExtra(todoIdString, currentTodo.id);
+    public void addTodoClicked(final View view){
+        final Intent intent = new Intent(this, TodoItemNew.class);
+        intent.putExtra(TODO_ID_STRING, currentTodo.id);
         startActivity(intent);
     }
 
@@ -184,39 +178,34 @@ public class TodoDetail extends AppCompatActivity {
     }
 
     private void saveTodoId(){
-        Intent intent = getIntent();
-        this.currentTodoId = intent.getExtras().getInt(todoIdString);
+        final Intent intent = getIntent();
+        this.currentTodoId = intent.getExtras().getInt(TODO_ID_STRING);
     }
 
-    private void saveTodoItemId(){
-        Intent intent = getIntent();
-        this.currentTodoItemId = intent.getExtras().getInt("todoItemId");
-    }
-
-    private void resizeList(ListView list){
-        ListAdapter listAdapter = list.getAdapter();
+    private void resizeList(final ListView list){
+        final ListAdapter listAdapter = list.getAdapter();
         int totalHeight = 0;
         for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, list);
+            final View listItem = listAdapter.getView(i, null, list);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
 
-        ViewGroup.LayoutParams params = list.getLayoutParams();
+        final ViewGroup.LayoutParams params = list.getLayoutParams();
         params.height = totalHeight + (list.getDividerHeight() * (listAdapter.getCount()-1));
         list.setLayoutParams(params);
         list.requestLayout();
     }
 
-    public void createConfirmationAlertTodoItem(String todoItemTitle, final int todoItemId){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    public void createConfirmationAlertTodoItem(final String todoItemTitle, final int todoItemId){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Löschen?");
         builder.setMessage("Soll das To-Do-Item \""+todoItemTitle+"\" wirklich gelöscht werden?");
 
         builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(final DialogInterface dialog, final int which) {
                 deleteTodoItem(todoItemId);
                 dialog.dismiss();
             }
@@ -224,16 +213,16 @@ public class TodoDetail extends AppCompatActivity {
 
         builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(final DialogInterface dialog, final int which) {
                 dialog.dismiss();
             }
         });
 
-        AlertDialog alert = builder.create();
+        final AlertDialog alert = builder.create();
         alert.show();
     }
 
-    private void deleteTodoItem(int todoItemId){
+    private void deleteTodoItem(final int todoItemId){
         deleteCalendarEntry(todoItemDao.findById(todoItemId).calendarEventId);
         todoItemDao.deleteTodoItemByTodoItemId(todoItemId);
         finish();
@@ -241,11 +230,11 @@ public class TodoDetail extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Ihr To-Do-Item wurde gelöscht.", Toast.LENGTH_LONG).show();
     }
 
-    private void deleteCalendarEntry(long eventId){
+    private void deleteCalendarEntry(final long eventId){
         if(eventId != -1) {
-            ContentResolver cr = this.getApplicationContext().getContentResolver();
-            Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
-            cr.delete(deleteUri, null, null);
+            final ContentResolver contRes = this.getApplicationContext().getContentResolver();
+            final Uri deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
+            contRes.delete(deleteUri, null, null);
         }
     }
 }

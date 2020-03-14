@@ -17,29 +17,28 @@ import ch.hslu.mobpro.donotforget.todosroomdatabase.TodosDatabase;
 public class TodoEdit extends AppCompatActivity {
 
     private TodosDatabase todosDb;
-    TodoDao todoDao;
-    Todo currentTodo;
-    EditText title;
-    EditText content;
+    private TodoDao todoDao;
+    private Todo currentTodo;
+    private EditText title;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {//NOPMD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_edit);
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("To-Do bearbeiten");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        getDb();
-        Intent intent = getIntent();
-        getCurrentTodo(intent);
+        setDb();
+        final Intent intent = getIntent();
+        setCurrentTodo(intent);
         fillActivity();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if(item.getItemId() == android.R.id.home)
         {
             openTodoDetail();
@@ -47,17 +46,17 @@ public class TodoEdit extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openTodoDetail(View v){
+    public void openTodoDetail(final View v){//NOPMD
         openTodoDetail();
     }
 
     private void openTodoDetail(){
-        Intent intent = new Intent(this, TodoDetail.class);
+        final Intent intent = new Intent(this, TodoDetail.class);
         intent.putExtra("todoId", currentTodo.id);
         startActivity(intent);
     }
 
-    private void getDb(){
+    private void setDb(){
         todosDb = Room.databaseBuilder(
                 this,
                 TodosDatabase.class,
@@ -65,8 +64,8 @@ public class TodoEdit extends AppCompatActivity {
         ).allowMainThreadQueries().build();
     }
 
-    private void getCurrentTodo(Intent intent){
-        int todoId = intent.getExtras().getInt("todoId");
+    private void setCurrentTodo(final Intent intent){
+        final int todoId = intent.getExtras().getInt("todoId");
         todoDao = todosDb.todoDao();
         currentTodo = todoDao.findById(todoId);
     }
@@ -76,7 +75,7 @@ public class TodoEdit extends AppCompatActivity {
         title.setText(currentTodo.title);
     }
 
-    public void udpateTodo(View v){
+    public void udpateTodo(final View v){//NOPMD
         currentTodo.title = title.getText().toString();
         todoDao.updateTodos(currentTodo);
         Toast.makeText(getApplicationContext(), "Ihr To-Do wurde aktualisiert.", Toast.LENGTH_LONG).show();
