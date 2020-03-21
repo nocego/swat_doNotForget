@@ -10,6 +10,9 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
+/**
+ *Datepicker which can be used within a class to open as DialogFragment
+ */
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener{
 
@@ -26,6 +29,11 @@ public class DatePickerFragment extends DialogFragment
         dateListener = (DateListener) context;
     }
 
+    /**
+     * set date as current value in datePicker
+     * @param savedInstanceState
+     * @return DatePickerDialog
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {//NOPMD
@@ -43,14 +51,23 @@ public class DatePickerFragment extends DialogFragment
         }
     }
 
+    /**
+     * @return current year or the set year in arguments
+     */
     private int getYear(){
         return getArguments() == null ? Calendar.getInstance().get(Calendar.YEAR) : getArguments().getInt("year");
     }
 
+    /**
+     * @return current month or the set month in arguments
+     */
     private int getMonth(){
         return getArguments() == null ? Calendar.getInstance().get(Calendar.MONTH) : getArguments().getInt("month")-1;
     }
 
+    /**
+     * @return current day or the set day in arguments
+     */
     private int getDay(){
         return getArguments() == null ? Calendar.getInstance().get(Calendar.DAY_OF_MONTH) : getArguments().getInt("day");
     }

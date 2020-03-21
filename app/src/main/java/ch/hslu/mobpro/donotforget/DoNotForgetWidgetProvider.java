@@ -14,9 +14,11 @@ import java.util.Set;
 
 /**
  * Implementation of App Widget functionality.
+ * required for the bottom nav bar change
  */
 public class DoNotForgetWidgetProvider extends AppWidgetProvider {
     private static final String WIDGET_ON_CLICK = "myOnClickTag";
+
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

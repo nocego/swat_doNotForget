@@ -75,12 +75,6 @@ d
 4app/src/main/res/drawable/ic_settings_black_24dp.xml,8\d\8df83ecc15bdcd7178eb73b4fbcb2b8fc1e01970
 h
 8app/src/main/res/drawable-v24/ic_launcher_foreground.xml,0\7\078508c831007ccb3938b355f0d30a8368f99a8d
-^
-.app/src/main/res/layout/activity_todo_edit.xml,c\5\c541ed20830a81e4923d36f8b1b2acdde0fdcb96
-c
-3app/src/main/res/layout/activity_todo_item_edit.xml,5\c\5cad7268b77b9e3561fdecc2cfb4a74044736f29
-b
-2app/src/main/res/layout/activity_todo_item_new.xml,7\7\77f070b14a1d4025b7d73ebd67444a062e6192fb
 ]
 -app/src/main/res/layout/activity_todo_new.xml,e\2\e28f30627948e1368549c1eb0a748ead6938847c
 g

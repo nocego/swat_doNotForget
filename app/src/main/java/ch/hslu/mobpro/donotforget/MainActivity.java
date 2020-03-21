@@ -35,10 +35,13 @@ public class MainActivity extends AppCompatActivity {//NOPMD
         final ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         setupViewPager();
-        getDb();
+        getNotesDb();
         fillNoteList();
     }
 
+    /**
+     * reopen the selected tabIndex onResume
+     */
     @Override
     public void onResume(){
         super.onResume();
@@ -54,11 +57,19 @@ public class MainActivity extends AppCompatActivity {//NOPMD
         updatePreferences();
     }
 
+    /**
+     * open detail page of the just created note
+     * @param v
+     */
     public void openNoteDetail(final View v){//NOPMD
         final Intent intent = new Intent(MainActivity.this, NoteDetail.class);
         startActivity(intent);
     }
 
+    /**
+     * open the activity to create a new note
+     * @param v
+     */
     public void openNoteNew(final View v){//NOPMD
         final Intent intent = new Intent(MainActivity.this, NoteNew.class);
         startActivity(intent);
@@ -69,11 +80,18 @@ public class MainActivity extends AppCompatActivity {//NOPMD
         startActivity(intent);
     }
 
+    /**
+     * open the activity to crate a new todo
+     * @param v
+     */
     public void openTodoNew(final View v){//NOPMD
         final Intent intent = new Intent(MainActivity.this, ToDoNew.class);
         startActivity(intent);
     }
 
+    /**
+     * setup the pager to slide between to views
+     */
     private void setupViewPager(){
         final ViewPager viewPager = findViewById(R.id.viewPager);
 
@@ -91,7 +109,7 @@ public class MainActivity extends AppCompatActivity {//NOPMD
         tab.select();
     }
 
-    private void getDb(){
+    private void getNotesDb(){
         notesDb = Room.databaseBuilder(
                 getApplicationContext(),
                 NotesDatabase.class,
@@ -99,11 +117,17 @@ public class MainActivity extends AppCompatActivity {//NOPMD
         ).allowMainThreadQueries().build();
     }
 
+    /**
+     * fill up the list with all saved notes
+     */
     private void fillNoteList(){
         final NoteDao noteDao = notesDb.noteDao();
         noteList = noteDao.getAll();
     }
 
+    /**
+     * add all notetitles to the sharedpreference text
+     */
     public void updatePreferences(){
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = preferences.edit();
