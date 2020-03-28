@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class todosroomdatabaseTest {
+public class todosroomDatabaseTest {
 
     private final static String TEST_TITLE = "TestTitle";
     private final static String TITLE_WITH_UMLAUT = "äöüTitle";

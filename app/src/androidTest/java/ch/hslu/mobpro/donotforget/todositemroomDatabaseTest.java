@@ -20,9 +20,10 @@ import static org.junit.Assert.assertEquals;
 
 @MediumTest
 @RunWith(AndroidJUnit4.class)
-public class todositemroomdatabaseTest {
+public class todositemroomDatabaseTest {
 
     private final static String TEST_TITLE = "TestTitle";
+    private final static String TITLE_WITH_UMLAUT = "äöüTitle";
 
     @Test
     public void writeRegularTodoItem()  {
@@ -39,7 +40,7 @@ public class todositemroomdatabaseTest {
         final TodoItemDao todoItemDao = todoItemsDb.todoItemDao();
         final int numberOFTodoItemsBeforeTest = todoItemDao.getAll().size();//NOPMD
 
-        final TodoItem todoItem = createTodoItem(createdTodo.id, TEST_TITLE, "01.01.2020", "Rotkreuz", "Gerold", false);
+        final TodoItem todoItem = createTodoItem(createdTodo.id, TEST_TITLE, "01.01.2020 14:00", "Rotkreuz", "Gerold", false);
 
         //act
         todoItemDao.insertAllTodoItem(todoItem);
@@ -55,8 +56,67 @@ public class todositemroomdatabaseTest {
         todoDao.deleteTodos(createdTodo);
     }
 
-    //todo: unittests for not all variables in todoitem
-    //delete todo with todoitems in it
+    @Test
+    public void writeTodoItemWithUmlaut()  {
+        //arrange
+        final TodoDao todoDao = getTodoDao();
+        final int numberOfTodosBeforeTest = todoDao.getAll().size();//NOPMD
+        final Todo todo = createTodo(TEST_TITLE);
+        todoDao.insertAll(todo);
+        waitForTodosToBecomeThatMany(numberOfTodosBeforeTest+1, todoDao);
+        final List<Todo> todoList = todoDao.getAll();
+        final Todo createdTodo = todoList.get(numberOfTodosBeforeTest);
+
+        final TodoItemsDatabase todoItemsDb = getTodoItemsDatabase();
+        final TodoItemDao todoItemDao = todoItemsDb.todoItemDao();
+        final int numberOFTodoItemsBeforeTest = todoItemDao.getAll().size();//NOPMD
+
+        final TodoItem todoItem = createTodoItem(createdTodo.id, TITLE_WITH_UMLAUT, "01.01.2020 14:00", "Rötkreuz", "Geröld", false);
+
+        //act
+        todoItemDao.insertAllTodoItem(todoItem);
+        waitForTodoItemsToBecomeThatMany(numberOFTodoItemsBeforeTest+1, todoItemDao);
+        final List<TodoItem> todoItemList = todoItemDao.getAll();
+
+        //assert
+        assertEquals(todoItem, todoItemList.get(numberOFTodoItemsBeforeTest));//NOPMD
+
+        //revert
+        todoItemDao.deleteTodoItems(todoItemList.get(numberOFTodoItemsBeforeTest));
+        waitForTodoItemsToBecomeThatMany(numberOfTodosBeforeTest, todoItemDao);
+        todoDao.deleteTodos(createdTodo);
+    }
+
+    @Test
+    public void writeEmptyTodoItem()  {
+        //arrange
+        final TodoDao todoDao = getTodoDao();
+        final int numberOfTodosBeforeTest = todoDao.getAll().size();//NOPMD
+        final Todo todo = createTodo(TEST_TITLE);
+        todoDao.insertAll(todo);
+        waitForTodosToBecomeThatMany(numberOfTodosBeforeTest+1, todoDao);
+        final List<Todo> todoList = todoDao.getAll();
+        final Todo createdTodo = todoList.get(numberOfTodosBeforeTest);
+
+        final TodoItemsDatabase todoItemsDb = getTodoItemsDatabase();
+        final TodoItemDao todoItemDao = todoItemsDb.todoItemDao();
+        final int numberOFTodoItemsBeforeTest = todoItemDao.getAll().size();//NOPMD
+
+        final TodoItem todoItem = createTodoItem(createdTodo.id, "", "", "", "", false);
+
+        //act
+        todoItemDao.insertAllTodoItem(todoItem);
+        waitForTodoItemsToBecomeThatMany(numberOFTodoItemsBeforeTest+1, todoItemDao);
+        final List<TodoItem> todoItemList = todoItemDao.getAll();
+
+        //assert
+        assertEquals(todoItem, todoItemList.get(numberOFTodoItemsBeforeTest));//NOPMD
+
+        //revert
+        todoItemDao.deleteTodoItems(todoItemList.get(numberOFTodoItemsBeforeTest));
+        waitForTodoItemsToBecomeThatMany(numberOfTodosBeforeTest, todoItemDao);
+        todoDao.deleteTodos(createdTodo);
+    }
 
 
     private TodoDao getTodoDao(){

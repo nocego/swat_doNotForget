@@ -4,20 +4,17 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.MediumTest;
-import android.support.test.runner.AndroidJUnit4;
 import ch.hslu.mobpro.donotforget.notesroomdatabase.Note;
 import ch.hslu.mobpro.donotforget.notesroomdatabase.NoteDao;
 import ch.hslu.mobpro.donotforget.notesroomdatabase.NotesDatabase;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 @MediumTest
-@RunWith(AndroidJUnit4.class)
-public class NotesroomdatabaseTest {
+public class NotesroomDatabaseTest {
 
     private final static String TEST_TITLE = "TestTitle";
     private final static String TITLE_WITH_UMLAUT = "äöüTitle";
